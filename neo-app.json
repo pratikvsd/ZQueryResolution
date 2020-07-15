@@ -40,8 +40,17 @@
         "version": "1.38.45"
       },
       "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/sap/opu/odata",
+      "target": {
+        "type": "destination",
+        "name": "GWD",
+        "entryPath": "/sap/opu/odata"
+      },
+      "description": "GWD_PO"
     }
   ],
   "sendWelcomeFileRedirect": true,
-   "authenticationMethod":"none"
+  "authenticationMethod": "none"
 }

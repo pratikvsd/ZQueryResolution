@@ -10,8 +10,17 @@
 		"title": "{{appTitle}}",
 		"description": "{{appDescription}}",
 		"sourceTemplate": {
-			"id": "ui5template.basicSAPUI5ApplicationProject",
-			"version": "1.38.11"
+			"id": "servicecatalog.connectivityComponentForManifest",
+			"version": "0.0.0"
+		},
+		"dataSources": {
+			"ZVECV_PURCHASE_ORDER_QUERY_SRV": {
+				"uri": "/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/metadata.xml"
+				}
+			}
 		}
 	},
 	"sap.ui": {
@@ -75,6 +84,16 @@
 				"settings": {},
 				"uri": "jsondata/QueryAlreadyRaised.json",
 				"preload": false
+			},
+			"": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZVECV_PURCHASE_ORDER_QUERY_SRV",
+				"preload": true
 			}
 		},
 		"resources": {

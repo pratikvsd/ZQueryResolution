@@ -1,0 +1,68 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:ui="sap.suite.ui.commons"
+	controllerName="QueryResolution.ZQueryResolution.controller.QueryResolutionMaster" xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="My Queries">
+				<subHeader>
+					<Toolbar id="toolbar1">
+						<SearchField id="idSearchSo" search="onSearch"></SearchField>
+						<Button icon="sap-icon://filter" tooltip="{i18n>refreshButtonTooltip}" press="handleOpenDialog" type="Emphasized"/>
+						<ToolbarSpacer/>
+					</Toolbar>
+				</subHeader>
+				<content>
+					<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding" select="OnSelectTab">
+						<items>
+							<IconTabFilter text="To Be Answered" key="ToBeAns">
+								<List items="{/QueryList}" id="listToBeAns">
+									<items>
+										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress"
+											number="{ parts:[{path:'Amount'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }" numberUnit="{CurrencyCode}">
+											<firstStatus>
+												<ObjectStatus text="{Status}" state="{ path: 'Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
+											</firstStatus>
+											<secondStatus>
+												<ObjectStatus text="{DocumentType}"/>
+											</secondStatus>
+											<attributes>
+												<ObjectAttribute text="{PurchaseOrderNo}" visible="false"/>
+												<ObjectAttribute text="{Plant} "/>
+												<ObjectAttribute text="{Vendor} "/>
+												<ObjectAttribute text="{PODate} "/>
+											</attributes>
+										</ObjectListItem>
+										<!--	<StandardListItem title="{PurchaseOrderNo}" description="{PODate}"  iconDensityAware="true" iconInset="true"
+							info="{POInitiator}" icon="{src}" infoState="Success"	type="Active" press="onListItemPress"/>-->
+									</items>
+								</List>
+							</IconTabFilter>
+							<IconTabFilter text="Already Raised" key="AlrdRaised">
+								<List items="{oModelQueryRaised>/QueryListAlreadyRaised}" id="listAlrdRaised">
+									<items>
+										<ObjectListItem title="{oModelQueryRaised>QueryID}" type="Active" press="onListAlreadyRaised"
+											number="{ parts:[{path:'oModelQueryRaised>Amount'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }" numberUnit="{oModelQueryRaised>CurrencyCode}">
+											<firstStatus>
+												<ObjectStatus text="{oModelQueryRaised>Status}" state="{ path: 'oModelQueryRaised>Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
+											</firstStatus>
+											<secondStatus>
+												<ObjectStatus text="{oModelQueryRaised>DocumentType}"/>
+											</secondStatus>
+											<attributes>
+												<ObjectAttribute text="{oModelQueryRaised>PurchaseOrderNo}" visible="false"/>
+												<ObjectAttribute text="{oModelQueryRaised>Plant} "/>
+												<ObjectAttribute text="{oModelQueryRaised>Vendor} "/>
+												<ObjectAttribute text="{oModelQueryRaised>PODate} "/>
+											</attributes>
+										</ObjectListItem>
+										<!--	<StandardListItem title="{PurchaseOrderNo}" description="{PODate}"  iconDensityAware="true" iconInset="true"
+							info="{POInitiator}" icon="{src}" infoState="Success"	type="Active" press="onListItemPress"/>-->
+									</items>
+								</List>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

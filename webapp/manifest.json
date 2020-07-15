@@ -1,0 +1,139 @@
+{
+	"_version": "1.8.0",
+	"sap.app": {
+		"id": "QueryResolution.ZQueryResolution",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.38.11"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "QueryResolution.ZQueryResolution.view.SApp",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.layout": {},
+				"sap.ui.core": {},
+				"sap.m": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "QueryResolution.ZQueryResolution.i18n.i18n"
+				}
+			},
+			"MyQuerySet": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"uri": "jsondata/MyQueries.json",
+				"preload": false
+			},
+			"AttachmentItemsSet": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"uri": "jsondata/AttachmentItems.json",
+				"preload": false
+			},
+			"QueryAlreadyRaisedSet": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"uri": "jsondata/QueryAlreadyRaised.json",
+				"preload": false
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "QueryResolution.ZQueryResolution.view",
+				"controlAggregation": "pages",
+				"controlId": "idApp",
+				"clearControlAggregation": false
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "FirstPage",
+					"target": [
+						"QueryResolutionDetail",
+						"QueryResolutionMaster"
+					]
+				},
+				{
+					"name": "QueryResolutionDetail",
+					"pattern": "QueryResolutionDetail/{PurchaseOrderNo}",
+					"target": [
+						"QueryResolutionMaster",
+						"QueryResolutionDetail"
+					]
+				}
+			],
+			"targets": {
+				"TargetSApp": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearControlAggregation": false,
+					"viewName": "SApp"
+				},
+				"QueryResolutionMaster": {
+					"viewType": "XML",
+					"viewName": "QueryResolutionMaster",
+					"controlAggregation": "masterPages"
+				},
+				"QueryResolutionDetail": {
+					"viewType": "XML",
+					"viewName": "QueryResolutionDetail",
+					"controlAggregation": "detailPages"
+				}
+			}
+		}
+	},
+	"sap.platform.hcp": {
+		"uri": "webapp",
+		"_version": "1.1.0"
+	}
+}

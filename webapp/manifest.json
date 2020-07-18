@@ -20,6 +20,13 @@
 				"settings": {
 					"localUri": "localService/metadata.xml"
 				}
+			},
+				"ZVECV_PURCHASE_ORDER_APPROVAL_SRV": {
+				"uri": "/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/",
+				"type": "OData",
+				"settings": {
+					"localUri": "localService/metadata.xml"
+				}
 			}
 		}
 	},
@@ -124,7 +131,7 @@
 				},
 				{
 					"name": "QueryResolutionDetail",
-					"pattern": "QueryResolutionDetail/{PurchaseOrderNo}",
+					"pattern": "QueryResolutionDetail/{PurchaseOrderNo}/QueryResolutionDetail1/{reviewData}",
 					"target": [
 						"QueryResolutionMaster",
 						"QueryResolutionDetail"

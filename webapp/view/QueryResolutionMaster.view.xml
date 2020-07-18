@@ -11,24 +11,24 @@
 					</Toolbar>
 				</subHeader>
 				<content>
-					<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding" select="OnSelectTab">
+					<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" expandable="false" class="sapUiResponsiveContentPadding" select="OnSelectTab">
 						<items>
 							<IconTabFilter text="To Be Answered" key="ToBeAns">
-								<List items="{/QueryList}" id="listToBeAns">
+								<List items="{/results}" id="listToBeAns" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress"
 											number="{ parts:[{path:'Amount'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }" numberUnit="{CurrencyCode}">
-											<firstStatus>
-												<ObjectStatus text="{Status}" state="{ path: 'Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
-											</firstStatus>
+										<!--	<firstStatus>
+												<ObjectStatus text="{Query}" state="{ path: 'Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
+											</firstStatus>-->
 											<secondStatus>
-												<ObjectStatus text="{DocumentType}"/>
+												<ObjectStatus text="{QueryStatusText}"/>
 											</secondStatus>
 											<attributes>
-												<ObjectAttribute text="{PurchaseOrderNo}" visible="false"/>
-												<ObjectAttribute text="{Plant} "/>
-												<ObjectAttribute text="{Vendor} "/>
-												<ObjectAttribute text="{PODate} "/>
+												<ObjectAttribute text="{PO_NO}" visible="false"/>
+												<ObjectAttribute text="{QueryFrom} "/>
+												<ObjectAttribute text="{QueryDate} {QueryTime}"/>
+												<!--<ObjectAttribute text="{QueryTime} "/>-->
 											</attributes>
 										</ObjectListItem>
 										<!--	<StandardListItem title="{PurchaseOrderNo}" description="{PODate}"  iconDensityAware="true" iconInset="true"
@@ -37,21 +37,22 @@
 								</List>
 							</IconTabFilter>
 							<IconTabFilter text="Already Raised" key="AlrdRaised">
-								<List items="{oModelQueryRaised>/QueryListAlreadyRaised}" id="listAlrdRaised">
+								<List items="{/results}" id="listAlrdRaised"   mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
-										<ObjectListItem title="{oModelQueryRaised>QueryID}" type="Active" press="onListAlreadyRaised"
-											number="{ parts:[{path:'oModelQueryRaised>Amount'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }" numberUnit="{oModelQueryRaised>CurrencyCode}">
+										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
 											<firstStatus>
-												<ObjectStatus text="{oModelQueryRaised>Status}" state="{ path: 'oModelQueryRaised>Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
+												<ObjectStatus text="{QueryStatusText}"
+													state="{ path: 'oModelQueryRaised>Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
 											</firstStatus>
-											<secondStatus>
-												<ObjectStatus text="{oModelQueryRaised>DocumentType}"/>
-											</secondStatus>
+										<!--	<secondStatus>
+												<ObjectStatus text="{Query}"/>
+											</secondStatus>-->
 											<attributes>
-												<ObjectAttribute text="{oModelQueryRaised>PurchaseOrderNo}" visible="false"/>
-												<ObjectAttribute text="{oModelQueryRaised>Plant} "/>
-												<ObjectAttribute text="{oModelQueryRaised>Vendor} "/>
-												<ObjectAttribute text="{oModelQueryRaised>PODate} "/>
+												<ObjectAttribute text="{PO_NO}" visible="false"/>
+												<ObjectAttribute text="{QueryTo} "/>
+												<ObjectAttribute text="{QueryToID} "/>
+												<ObjectAttribute text="{QueryDate} {QueryTime} "/>
+												<!--<ObjectAttribute text="{QueryTime} "/>-->
 											</attributes>
 										</ObjectListItem>
 										<!--	<StandardListItem title="{PurchaseOrderNo}" description="{PODate}"  iconDensityAware="true" iconInset="true"

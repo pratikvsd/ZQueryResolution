@@ -6,14 +6,15 @@
 			<Page title="Volvo Eicher Commercial Vehicles  Query Resolution" navButtonPress="handleNavButtonPress"
 				showNavButton="{device>/system/phone}">
 				<content>
-					<ObjectHeader  id= "objcmp">
+				<Label id="lblUser_dept"  visible="false"/>
+					<ObjectHeader  id= "objcmp" visible="false">
 						<statuses>
 							<ObjectStatus id="objPrice"/>
 						</statuses>
 						<ObjectAttribute id="objcmp1" class="objectattr"/>
 					</ObjectHeader>
 					<!--<ObjectHeader id="objcmp" title="PO Number"/>-->
-					<IconTabBar id="idIconTabBarNoIcons" expanded="true" class="sapUiResponsiveContentPadding">
+					<IconTabBar id="idIconTabBarNoIcons" select="handleIconTabBarSelect" expanded="true" class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter icon="sap-icon://pdf-attachment" text="Cover Note">
 								<core:HTML id="idFrame"/>
@@ -41,7 +42,7 @@
 									</items>
 								</UploadCollection>
 							</IconTabFilter>
-							<IconTabFilter text="General" icon="sap-icon://message-information">
+							<IconTabFilter text="General" key="General" icon="sap-icon://message-information">
 								<!--	<VBox class="sapUiSmallMargin">
 									<f:Form id="FormChange354" editable="true">
 										<f:layout>
@@ -111,11 +112,11 @@
 														<Text id="txtPONO" visible="false"/>
 															<Label text="Query ID"/>
 													<Text id="idQuery"/>
-													<Label text="Purchase Order No"/>
+													<Label text="PO No"/>
 													<Text id="PurOrdNo"/>
-													<Label text="Purchase Order Description"/>
+													<Label text="PO Description"/>
 													<Text id="PurOrdDesc"/>
-													<Label text="Purchase Order Initiator"/>
+													<Label text="PO Initiator"/>
 													<Text id="PurOrdInt"/>
 												
 												</f:content>
@@ -134,9 +135,9 @@
 													<Text id="PurOrdVendor" />
 													<Label text="Document Type"/>
 													<Text id="PurDocType"/>
-													<Label text="Purchase Order Date"/>
+													<Label text="PO Date"/>
 													<Text id="PurOrdDt"/>
-													<Label text="Purchase Order Status"/>
+													<Label text="PO Status"/>
 													<Text id="PurOrdSts"/>
 													
 												</f:content>

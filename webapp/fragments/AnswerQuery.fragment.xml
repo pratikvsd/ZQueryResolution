@@ -1,6 +1,8 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form">
 	<Dialog  contentWidth="700px" title="Answer Query" horizontalScrolling="false">
 		<VBox class="sapUiSmallMargin">
+				<Text id="lblDate" visible="false"/>
+					<Text id="lblTime"  visible="false"/>
 			<f:Form id="FormToolbarRejectionHistory" editable="true" ariaLabelledBy="Title1">
 				<f:layout>
 					<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"
@@ -14,9 +16,19 @@
 									<TextArea id="iQueryAns" width="100%"/>
 								</f:fields>
 							</f:FormElement>
+							<f:FormElement label="Query">
+								<f:fields>
+									<TextArea id="iQuery" width="100%"/>
+								</f:fields>
+							</f:FormElement>
 							<f:FormElement label="To User">
 								<f:fields>
 									<Input id="iUser" width="100%"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="Query Date  Time">
+								<f:fields>
+									<Input id="idDateTime" width="100%"/>
 								</f:fields>
 							</f:FormElement>
 						</f:formElements>
@@ -25,8 +37,8 @@
 			</f:Form>
 		</VBox>
 		<buttons>
-			<Button text="Submit Query" icon="sap-icon://accept" type="Emphasized" press="OnSubmitQuery"></Button>
-			<Button text="Cancel" type="Reject" icon="sap-icon://decline" press="OnSubmitQuery"></Button>
+			<Button text="Submit Query Answer" icon="sap-icon://accept" type="Emphasized" press="OnSubmitAnswer"></Button>
+			<Button text="Cancel" type="Reject" icon="sap-icon://decline" press="OnCancelAnswer"></Button>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

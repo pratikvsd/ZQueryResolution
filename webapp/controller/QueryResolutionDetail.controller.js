@@ -329,7 +329,7 @@ sap.ui.define([
 			// toggle compact style
 			jQuery.sap.syncStyleClass("sapUiSizeCompact", this.getView(), this._AnsweroDialog);
 			this._AnsweroDialog.open();
-
+			
 			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
 			var oList = this.getView().byId("listToBeAns");
 			//	var oListAlRaised = this.getView().byId("listAlrdRaised");
@@ -343,6 +343,8 @@ sap.ui.define([
 			var txtDate = sap.ui.getCore().byId("lblDate");
 			var txtTime = sap.ui.getCore().byId("lblTime");
 			var oPoNo = this.getView().byId("objcmp").getTitle();
+			var oQueryId = this.getView().byId("idQuery").getText();
+			
 			var DateTime;
 
 			oModelQ.read("/QueryToAnswerSet", {
@@ -351,7 +353,7 @@ sap.ui.define([
 					var oModelData = new sap.ui.model.json.JSONModel();
 					oModelData.setData(odata);
 					for (var i = 0; i < oModelData.getData().results.length; i++) {
-						if (oModelData.getData().results[i].PO_NO.toString() === oPoNo) {
+						if (oModelData.getData().results[i].QueryID.toString() === oQueryId) {
 							txtQuery.setValue(oModelData.getData().results[i].Query);
 							txtUser.setValue(oModelData.getData().results[i].QueryFrom);
 							txtDate.setText(oModelData.getData().results[i].QueryDate);
@@ -365,6 +367,11 @@ sap.ui.define([
 					//	MessageBox.error("error");
 				}
 			});
+			
+			var TitleAnswer = "QueryId - " + " Answer Query";
+
+			var oTitle = this._AnsweroDialog.setTitle(TitleAnswer);
+
 
 		},
 		_GetCuurentDate: function (CurrDate) {

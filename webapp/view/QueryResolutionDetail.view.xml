@@ -3,7 +3,7 @@
 	xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:upload="sap.m.upload">
 		<App>
 		<pages>
-			<Page title="Volvo Eicher Commercial Vehicles  Query Resolution" navButtonPress="handleNavButtonPress"
+			<Page title="Volvo Eicher Commercial Vehicles Purchase Order Query Resolution" navButtonPress="handleNavButtonPress"
 				showNavButton="{device>/system/phone}">
 				<content>
 				<Label id="lblUser_dept"  visible="false"/>

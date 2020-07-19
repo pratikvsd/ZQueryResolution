@@ -16,7 +16,7 @@
 									<TextArea id="iQueryAns" width="100%"/>
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="Query">
+							<f:FormElement label="Query Asked">
 								<f:fields>
 									<TextArea id="iQuery" width="100%"/>
 								</f:fields>

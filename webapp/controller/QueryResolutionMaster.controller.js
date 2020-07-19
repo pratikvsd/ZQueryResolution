@@ -1,11 +1,11 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
-	'QueryResolution/ZQueryResolution/utils/Formatter',
-], function (Controller, Formatter) {
+	'QueryResolution/ZQueryResolution/utils/formatter',
+], function (Controller, formatter) {
 	"use strict";
 
 	return Controller.extend("QueryResolution.ZQueryResolution.controller.QueryResolutionMaster", {
-
+		formatter: formatter,
 		/**
 		 * Called when a controller is instantiated and its View controls (if available) are already created.
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.

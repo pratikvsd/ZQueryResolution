@@ -26,7 +26,7 @@
 											</secondStatus>
 											<attributes>
 												<ObjectAttribute text="{PO_NO}" visible="false"/>
-												<ObjectAttribute text="{QueryFrom} "/>
+												<ObjectAttribute text="From :{QueryFrom} "/>
 												<ObjectAttribute text="{QueryDate} {QueryTime}"/>
 												<!--<ObjectAttribute text="{QueryTime} "/>-->
 											</attributes>
@@ -41,15 +41,16 @@
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
 											<firstStatus>
-												<ObjectStatus text="{QueryStatusText}"
-													state="{ path: 'oModelQueryRaised>Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
+												<ObjectStatus text="{QueryStatusText}" state="{ path: 'QueryStatusText', formatter: 'QueryResolution.ZQueryResolution.utils.formatter.status' }"/>
+												<!--<ObjectStatus text="{QueryStatusText}"
+													state="{ path: 'QueryStatusText', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>-->
 											</firstStatus>
 										<!--	<secondStatus>
 												<ObjectStatus text="{Query}"/>
 											</secondStatus>-->
 											<attributes>
 												<ObjectAttribute text="{PO_NO}" visible="false"/>
-												<ObjectAttribute text="{QueryTo} "/>
+												<ObjectAttribute text="To:{QueryTo} "/>
 												<ObjectAttribute text="{QueryToID} "/>
 												<ObjectAttribute text="{QueryDate} {QueryTime} "/>
 												<!--<ObjectAttribute text="{QueryTime} "/>-->

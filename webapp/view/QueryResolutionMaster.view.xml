@@ -11,19 +11,20 @@
 					</Toolbar>
 				</subHeader>
 				<content>
-					<IconTabBar id="idIconTabBarNoIcons" expanded="{device>/isNoPhone}" expandable="false" class="sapUiResponsiveContentPadding" select="OnSelectTab">
+					<IconTabBar id="idIconTabBarNoIcons" applyContentPadding="false" expanded="{device>/isNoPhone}" expandable="false" class="sapUiResponsiveContentPadding" select="OnSelectTab">
 						<items>
 							<IconTabFilter text="To Be Answered" key="ToBeAns">
 								<List items="{/results}" id="listToBeAns" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress"
 											number="{ parts:[{path:'Amount'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }" numberUnit="{CurrencyCode}">
-										<!--	<firstStatus>
-												<ObjectStatus text="{Query}" state="{ path: 'Status', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>
-											</firstStatus>-->
-											<secondStatus>
+											<firstStatus>
+														<ObjectStatus text="{QueryStatusText}"/>
+
+											</firstStatus>
+										<!--	<secondStatus>
 												<ObjectStatus text="{QueryStatusText}"/>
-											</secondStatus>
+											</secondStatus>-->
 											<attributes>
 												<ObjectAttribute text="{PO_NO}" visible="false"/>
 												<ObjectAttribute text="From :{QueryFrom} "/>
@@ -41,7 +42,7 @@
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
 											<firstStatus>
-												<ObjectStatus text="{QueryStatusText}" state="{ path: 'QueryStatusText', formatter: 'QueryResolution.ZQueryResolution.utils.formatter.status' }"/>
+												<ObjectStatus text="{QueryStatusText}"/>
 												<!--<ObjectStatus text="{QueryStatusText}"
 													state="{ path: 'QueryStatusText', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>-->
 											</firstStatus>

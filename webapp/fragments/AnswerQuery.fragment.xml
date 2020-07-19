@@ -3,6 +3,7 @@
 		<VBox class="sapUiSmallMargin">
 				<Text id="lblDate" visible="false"/>
 					<Text id="lblTime"  visible="false"/>
+						<Text id="IdQueryTo" visible="false"/>
 			<f:Form id="FormToolbarRejectionHistory" editable="true" ariaLabelledBy="Title1">
 				<f:layout>
 					<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"

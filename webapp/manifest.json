@@ -21,11 +21,11 @@
 					"localUri": "localService/metadata.xml"
 				}
 			},
-				"ZVECV_PURCHASE_ORDER_APPROVAL_SRV": {
+			"ZVECV_PURCHASE_ORDER_APPROVAL_SRV": {
 				"uri": "/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/",
 				"type": "OData",
 				"settings": {
-					"localUri": "localService/metadata.xml"
+					"localUri": "localService/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/metadata.xml"
 				}
 			}
 		}
@@ -101,6 +101,16 @@
 				},
 				"dataSource": "ZVECV_PURCHASE_ORDER_QUERY_SRV",
 				"preload": true
+			},
+			"POModel": {
+				"type": "sap.ui.model.odata.v2.ODataModel",
+				"settings": {
+					"defaultOperationMode": "Server",
+					"defaultBindingMode": "OneWay",
+					"defaultCountMode": "Request"
+				},
+				"dataSource": "ZVECV_PURCHASE_ORDER_APPROVAL_SRV",
+				"preload": true
 			}
 		},
 		"resources": {
@@ -160,6 +170,10 @@
 	},
 	"sap.platform.hcp": {
 		"uri": "webapp",
+		"_version": "1.1.0"
+	},
+	"sap.platform.abap": {
+		"uri": "/sap/bc/ui5_ui5/sap/zqueryres/webapp",
 		"_version": "1.1.0"
 	}
 }

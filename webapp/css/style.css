@@ -121,6 +121,7 @@ div#__xmlview1--SimpleFormChange354wide--Form--Grid {
 .sapUiMedia-Std-Tablet .sapMITH, .sapUiMedia-Std-Desktop .sapMITH {
     padding: 0 2rem;
     background-color: #0c0c61;
+    
 }
 
 div#__container1--Grid {
@@ -269,9 +270,6 @@ sapMBtnInner.sapMBtnReject:hover
     font-weight: unset;
 }
 
-.sapMITBTextOnly .sapMITBFilterDefault>.sapMITBText {
-   /* color: #333333;*/
-}
 
 
 
@@ -281,3 +279,44 @@ sapMBtnInner.sapMBtnReject:hover
     margin-left: 0px;
     margin-right: 0px;
 }
+
+
+
+
+.sapMITBTextOnly .sapMITBFilterDefault.sapMITBSelected>.sapMITBText {
+    color: #f7f9fa;
+     background-color: #e24040;
+  
+    font-weight: unset;
+}
+.sapMITBTextOnly .sapMITBFilter.sapMITBSelected {
+    margin-left: 0;
+    background-color: #e24040;
+}
+
+.sapUiMedia-Std-Tablet .sapMITH, .sapUiMedia-Std-Desktop .sapMITH {
+    padding: 0 2rem;
+    background-color: #0c0c61;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.sapMITBHead {
+    font-size: 0.75rem;
+   padding-top: 24px;
+    margin-top: 0px;
+}
+
+.sapMITBTextOnly {
+    width: 121%;
+    padding-top: 0px;
+}
+
+.sapMITBTextOnly .sapMITBFilter.sapMITBSelected {
+    margin-left: 0;
+    width: 39%;
+    padding-left: 20px;
+}
+
+
+

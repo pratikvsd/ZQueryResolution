@@ -16,8 +16,8 @@ sap.ui.define([
 			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 			this.getView().setModel(oModel);
 
-				this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-		//	this._UserID = "FIN_RELEASE1";
+			this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+		//	this._UserID = "PURCHASE1";
 
 			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
 			var oList = this.getView().byId("listToBeAns");

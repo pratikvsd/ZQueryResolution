@@ -1,20 +1,21 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
 	controllerName="QueryResolution.ZQueryResolution.controller.QueryResolutionDetail" xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:semantic="sap.m.semantic" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:upload="sap.m.upload">
-		<App>
+	<App>
 		<pages>
 			<Page title="Volvo Eicher Commercial Vehicles Purchase Order Query Resolution" navButtonPress="handleNavButtonPress"
 				showNavButton="{device>/system/phone}">
 				<content>
-				<Label id="lblUser_dept"  visible="false"/>
-					<ObjectHeader  id= "objcmp" visible="false">
+					<Label id="lblUser_dept" visible="false"/>
+				
+					<ObjectHeader id="objcmp" visible="false">
 						<statuses>
 							<ObjectStatus id="objPrice"/>
 						</statuses>
 						<ObjectAttribute id="objcmp1" class="objectattr"/>
 					</ObjectHeader>
 					<!--<ObjectHeader id="objcmp" title="PO Number"/>-->
-					<IconTabBar id="idIconTabBarNoIcons" select="handleIconTabBarSelect" expanded="true" class="sapUiResponsiveContentPadding">
+					<IconTabBar id="idIconTabBarNoIconsD" select="handleIconTabBarSelect" expanded="true" class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter icon="sap-icon://pdf-attachment" text="Cover Note">
 								<core:HTML id="idFrame"/>
@@ -31,7 +32,7 @@
 											<ToolbarSpacer/>
 											<Button id="deleteSelectedButton" text="Delete" press="onDeleteSelectedItems" enabled="false" visible="false" type="Transparent"></Button>
 											<ToggleButton id="selectAllButton" text="Select all" press="onSelectAllPress" enabled="false" visible="false" type="Transparent"></ToggleButton>
-										<UploadCollectionToolbarPlaceholder></UploadCollectionToolbarPlaceholder>
+											<UploadCollectionToolbarPlaceholder></UploadCollectionToolbarPlaceholder>
 										</OverflowToolbar>
 									</toolbar>
 									<items>
@@ -41,6 +42,43 @@
 											visibleEdit="{oModelAttachment>visibleEdit}" selected="{oModelAttachment>selected}"></UploadCollectionItem>
 									</items>
 								</UploadCollection>
+							</IconTabFilter>
+							<IconTabFilter text="Query History" key="QueryHistory" icon="sap-icon://history">
+								<Table id="tblQueryHistory" items="{path:'/results'}" inset="false" growing="true" growingThreshold="10" growingScrollToLoad="true"
+									width="auto">
+									<columns>
+										<Column >
+											<Text text="From" class="tblHeader"/>
+										</Column>
+										<Column >
+											<Text text="To" class="tblHeader"/>
+										</Column>
+										<Column >
+											<Text text="Date" class="tblHeader"/>
+										</Column>
+										<Column >
+											<Text text="Time" class="tblHeader"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="Status" class="tblHeader"/>
+										</Column>
+										<Column minScreenWidth="Tablet" demandPopin="true">
+											<Text text="Query" class="tblHeader"/>
+										</Column>
+									</columns>
+									<items >
+										<ColumnListItem press="onEdit">
+											<cells>
+												<Text text="{Query_From}"/>
+												<Text text="{Query_To}"/>
+												<Text text="{Query_Date}"/>
+												<Text text="{Query_Time}"/>
+												<Text text="{Query_Status}"/>
+												<Text text="{Query}"/>
+											</cells>
+										</ColumnListItem>
+									</items>
+								</Table>
 							</IconTabFilter>
 							<IconTabFilter text="General" key="General" icon="sap-icon://message-information">
 								<!--	<VBox class="sapUiSmallMargin">
@@ -109,8 +147,8 @@
 												labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2"
 												columnsL="2" columnsM="2" singleContainerFullSize="false">
 												<f:content>
-														<Text id="txtPONO" visible="false"/>
-															<Label text="Query ID"/>
+													<Text id="txtPONO" visible="false"/>
+													<Label text="Query ID"/>
 													<Text id="idQuery"/>
 													<Label text="PO No"/>
 													<Text id="PurOrdNo"/>
@@ -118,34 +156,30 @@
 													<Text id="PurOrdDesc"/>
 													<Label text="PO Initiator"/>
 													<Text id="PurOrdInt"/>
-												
 												</f:content>
 											</f:SimpleForm>
 											<layoutData>
 												<l:GridData span="XL2 L4" linebreakL="false" linebreakM="false" linebreakS="false"/>
 											</layoutData>
 										</VBox>
-					
 										<VBox >
 											<f:SimpleForm id="SimpleFormChange354wide" editable="false" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="3" width="800px"
 												labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2"
 												columnsL="2" columnsM="2" singleContainerFullSize="false">
 												<f:content>
-														<Label text="Vendor Name"/>
-													<Text id="PurOrdVendor" />
+													<Label text="Vendor Name"/>
+													<Text id="PurOrdVendor"/>
 													<Label text="Document Type"/>
 													<Text id="PurDocType"/>
 													<Label text="PO Date"/>
 													<Text id="PurOrdDt"/>
 													<Label text="PO Status"/>
 													<Text id="PurOrdSts"/>
-													
 												</f:content>
 											</f:SimpleForm>
 										</VBox>
 									</l:content>
 								</l:Grid>
-								
 							</IconTabFilter>
 						</items>
 					</IconTabBar>

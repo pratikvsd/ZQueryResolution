@@ -11,20 +11,19 @@
 					</Toolbar>
 				</subHeader>
 				<content>
-					<IconTabBar id="idIconTabBarNoIcons" applyContentPadding="false" expanded="{device>/isNoPhone}" expandable="false" class="sapUiResponsiveContentPadding" select="OnSelectTab">
+					<IconTabBar id="idIconTabBarNoIcons" applyContentPadding="false" expanded="{device>/isNoPhone}" expandable="false"
+						class="sapUiResponsiveContentPadding" select="OnSelectTab">
 						<items>
 							<IconTabFilter text="To Be Answered" key="ToBeAns">
 								<List items="{/results}" id="listToBeAns" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
-										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress"
-											number="{ parts:[{path:'Amount'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }" numberUnit="{CurrencyCode}">
-											<firstStatus>
-														<ObjectStatus text="{QueryStatusText}"/>
-
-											</firstStatus>
-										<!--	<secondStatus>
-												<ObjectStatus text="{QueryStatusText}"/>
-											</secondStatus>-->
+										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
+											<!--	<firstStatus>
+												<ObjectStatus text="{QueryStatusText}" 	state="{ path: 'QueryStatusText', formatter: '.formatter.status' }"/>
+											</firstStatus>-->
+											<secondStatus>
+												<ObjectStatus text="{QueryStatusText}" state="{ path: 'QueryStatusText', formatter: '.formatter.status' }"/>
+											</secondStatus>
 											<attributes>
 												<ObjectAttribute text="{PO_NO}" visible="false"/>
 												<ObjectAttribute text="From :{QueryFrom} "/>
@@ -32,23 +31,20 @@
 												<!--<ObjectAttribute text="{QueryTime} "/>-->
 											</attributes>
 										</ObjectListItem>
-										<!--	<StandardListItem title="{PurchaseOrderNo}" description="{PODate}"  iconDensityAware="true" iconInset="true"
-							info="{POInitiator}" icon="{src}" infoState="Success"	type="Active" press="onListItemPress"/>-->
 									</items>
 								</List>
 							</IconTabFilter>
 							<IconTabFilter text="Already Raised" key="AlrdRaised">
-								<List items="{/results}" id="listAlrdRaised"   mode="SingleSelectMaster" selectionChange="onSelectionChange">
+								<List items="{/results}" id="listAlrdRaised" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
-											<firstStatus>
-												<ObjectStatus text="{QueryStatusText}"/>
-												<!--<ObjectStatus text="{QueryStatusText}"
-													state="{ path: 'QueryStatusText', formatter: 'QueryResolution.ZQueryResolution.utils.Formatter.status' }"/>-->
-											</firstStatus>
-										<!--	<secondStatus>
-												<ObjectStatus text="{Query}"/>
-											</secondStatus>-->
+											<!--	<firstStatus>
+												<ObjectStatus text="{QueryStatusText}" 	state="{ path: 'QueryStatusText', formatter: '.formatter.status' }"/>
+												
+											</firstStatus>-->
+											<secondStatus>
+												<ObjectStatus text="{QueryStatusText}" state="{ path: 'QueryStatusText', formatter: '.formatter.status' }"/>
+											</secondStatus>
 											<attributes>
 												<ObjectAttribute text="{PO_NO}" visible="false"/>
 												<ObjectAttribute text="To:{QueryTo} "/>

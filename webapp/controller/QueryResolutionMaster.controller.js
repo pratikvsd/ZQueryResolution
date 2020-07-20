@@ -16,8 +16,8 @@ sap.ui.define([
 			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 			this.getView().setModel(oModel);
 
-			this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-		//	this._UserID = "PURCHASE1";
+		//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+			this._UserID = "FIN_RELEASE1";
 
 			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
 			var oList = this.getView().byId("listToBeAns");
@@ -69,15 +69,15 @@ sap.ui.define([
 
 			var PurchaseOrderNo = e.getParameters().listItem.getAttributes()[0].getText();
 			var QueryId = e.getParameters().listItem.getTitle();
-			var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
+		//	var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
 			var itemN = {};
 			itemN.QueryID = QueryId;
-			itemN.QueryStatusText = QueryStatus;
+		//	itemN.QueryStatusText = QueryStatus;
 			itemN.ToBeAns = "A";
 
 			var itemR = {};
 			itemR.QueryID = QueryId;
-			itemR.QueryStatusText = QueryStatus;
+		//	itemR.QueryStatusText = QueryStatus;
 			itemR.ToBeAns = "R";
 
 			var oTabSelect = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
@@ -137,12 +137,12 @@ sap.ui.define([
 			
 			var itemN = {};
 			itemN.QueryID = objEdit.QueryID;
-			itemN.QueryStatusText = objEdit.QueryStatusText;
+		//	itemN.QueryStatusText = objEdit.QueryStatusText;
 			itemN.ToBeAns = "A";
 			
 			var itemR = {};
 			itemR.QueryID = objEdit.QueryID;
-			itemR.QueryStatusText = objEdit.QueryStatusText;
+		//	itemR.QueryStatusText = objEdit.QueryStatusText;
 			itemR.ToBeAns = "R";
 			
 			if (oTabSelect === "ToBeAns"){

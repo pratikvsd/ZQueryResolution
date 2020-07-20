@@ -4,7 +4,7 @@ sap.ui.define(function () {
 	var formatter = {
 
 		status: function (sStatus) {
-			debugger;
+		
 			if (sStatus === "Open") {
 				return "Error";
 			} else if (sStatus === "Closed") {

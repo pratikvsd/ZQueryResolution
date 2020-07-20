@@ -17,8 +17,8 @@ sap.ui.define([
 		 * @memberOf QueryResolution.ZQueryResolution.view.QueryResolutionDetail
 		 */
 		onInit: function () {
-		this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-		//	this._UserID = "PURCHASE1";
+	//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+			this._UserID = "FIN_RELEASE1";
 
 			/*	var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 				this.getView().setModel(oModel);*/

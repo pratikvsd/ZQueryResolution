@@ -146,6 +146,14 @@
 						"QueryResolutionMaster",
 						"QueryResolutionDetail"
 					]
+				},
+				{
+					"name": "queryresolutiondetail",
+					"pattern": "queryresolutiondetail",
+					"target": [
+						"QueryResolutionMaster",
+						"QueryResolutionDetail"
+					]
 				}
 			],
 			"targets": {

@@ -11,9 +11,12 @@
 					</Toolbar>
 				</subHeader>
 				<content>
+						<Text id="idtextPocount"  visible="false"/>
+						<Text id="idtextPocountAlredyR"  visible="false"/>
 					<IconTabBar id="idIconTabBarNoIcons" applyContentPadding="false" expanded="{device>/isNoPhone}" expandable="false"
 						class="sapUiResponsiveContentPadding" select="OnSelectTab">
 						<items>
+						
 							<IconTabFilter text="To Be Answered" key="ToBeAns">
 								<List items="{/results}" id="listToBeAns" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>

@@ -15,7 +15,7 @@
 						<ObjectAttribute id="objcmp1" class="objectattr"/>
 					</ObjectHeader>
 					<!--<ObjectHeader id="objcmp" title="PO Number"/>-->
-					<IconTabBar id="idIconTabBarNoIconsD" select="handleIconTabBarSelect" expanded="true" class="sapUiResponsiveContentPadding">
+					<IconTabBar id="idIconTabBarNoIconsD"  expandable="false" select="handleIconTabBarSelect" expanded="true" class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter icon="sap-icon://pdf-attachment" text="Cover Note">
 								<core:HTML id="idFrame"/>
@@ -192,7 +192,7 @@
 				<footer>
 					<OverflowToolbar>
 						<ToolbarSpacer/>
-						<Button text="Answer Query" id="btnAnsQry" visible="true" type="Emphasized" press="SelectDialogPressAnswer"></Button>
+						<Button text="Answer Query" id="btnAnsQry" visible="true"  type="Emphasized" press="SelectDialogPressAnswer"></Button>
 					</OverflowToolbar>
 				</footer>
 			</Page>

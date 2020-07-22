@@ -316,6 +316,11 @@ sapMBtnInner.sapMBtnReject:hover
     margin-left: 0;
     width: 39%;
     padding-left: 20px;
+    border-radius: 5px 5px 0px 0px;
+}
+.sapMITBFilter:first-child
+{
+	padding-left: 30px;
 }
 /*.sapUiMedia-Std-Tablet .sapMITH, .sapUiMedia-Std-Desktop .sapMITH {
     padding: 0 2rem;
@@ -324,5 +329,3 @@ sapMBtnInner.sapMBtnReject:hover
     padding-right: 0px;
     padding-left: 74px;
 }*/
-
-

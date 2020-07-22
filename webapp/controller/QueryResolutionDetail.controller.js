@@ -17,8 +17,8 @@ sap.ui.define([
 		 * @memberOf QueryResolution.ZQueryResolution.view.QueryResolutionDetail
 		 */
 		onInit: function () {
-	//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-			this._UserID = "FIN_RELEASE1";
+				this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+		//	this._UserID = "FIN_RELEASE1";
 
 			/*	var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 				this.getView().setModel(oModel);*/
@@ -32,28 +32,59 @@ sap.ui.define([
 			this._oRouter.getRoute("QueryResolutionDetail").attachPatternMatched(this._onEditMatched, this);
 
 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this._oRouter.getRoute("QueryResolutionDetail").attachPatternMatched(this._onPatternMatched, this);
+			this._oRouter.getRoute("queryresolutiondetail").attachPatternMatched(this._onPatternMatched, this);
 
-			var oModel = this.getOwnerComponent().getModel("AttachmentItemsSet");
-			this.getView().setModel(oModel, "oModelAttachment");
+			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
+			var filters = [];
+			filters.push(oUserID);
+			var Pocount;
+			var oModelData = new sap.ui.model.json.JSONModel();
+			var oAnswerQueryBtn = this.getView().byId("btnAnsQry");
+			var txtPONOOB = this.getView().byId("objcmp");
+			oModelQ.read("/QueryToAnswerSet", {
+				filters: filters,
+				success: function (odata, oResponse) {
+					Pocount = odata.results.length;
+					if (Pocount > 0) {
 
-			/*var oHtml = this.getView().byId("idFrame");
-			oHtml.setContent(
-				"<iframe  src='https://docs.google.com/viewer?url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy&embedded=true' height='600px' width='100%' ></iframe>"
-			);*/
+						oAnswerQueryBtn.setVisible(true);
+					} else {
+						//	txtPONOOB.setTitle("");
+						oAnswerQueryBtn.setVisible(false);
+					}
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+
+			oModelQ.read("/QueryRaisedSet", {
+				filters: filters,
+				success: function (odata, oResponse) {
+					Pocount = odata.results.length;
+					if (Pocount > 0) {
+
+						oAnswerQueryBtn.setVisible(false);
+					} else {
+						txtPONOOB.setTitle("");
+						//	oAnswerQueryBtn.setVisible(false);
+					}
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+
 		},
 
 		getRouter: function () {
 			return sap.ui.core.UIComponent.getRouterFor(this);
 		},
 		handleNavButtonPress: function (oEvent) {
-			//	debugger;
-			/*	var oSplitApp = this.getView().getParent().getParent();
-				var oMaster = oSplitApp.getMasterPages()[0];
-				oSplitApp.toMaster(oMaster, "flip");*/
-			//	debugger;
-			this.getRouter().navTo("FirstPage", {}, true);
 
+			this.getRouter().navTo("FirstPage", {}, true);
 		},
 
 		RefreshMasterList: function () {
@@ -71,20 +102,73 @@ sap.ui.define([
 			filters.push(oUserID);
 			var oModelData = new sap.ui.model.json.JSONModel();
 
-			//	var Pocount;
+			var POCoverNote = this.getView().byId("idFrame");
+			var POQueryHistory = this.getView().byId("tblQueryHistory");
+			var oAnswerQueryBtn = this.getView().byId("btnAnsQry");
+
+			var QueryId = this.getView().byId("idQuery");
+			var PurchaseNo = this.getView().byId("PurOrdNo");
+			var PODescription = this.getView().byId("PurOrdDesc");
+			var POOrderInti = this.getView().byId("PurOrdInt");
+
+			var vendor = this.getView().byId("PurOrdVendor");
+			var DocType = this.getView().byId("PurDocType");
+
+			var orderdate = this.getView().byId("PurOrdDt");
+			var PoStatus = this.getView().byId("PurOrdSts");
+
+			var Pocount;
 			var txtPONOOB = this.getView().byId("objcmp");
 			oModelQ.read("/QueryToAnswerSet", {
 				filters: filters,
 				success: function (odata, oResponse) {
 					//	Pocount = odata.results.length;
 					if (oList1 !== undefined) {
+						if (Pocount > 0) {
+							oModelData.setData(odata);
+							oList1.setModel(oModelData);
+						} else {
+							oModelData.setData(odata);
+							oList1.setModel(oModelData);
+							txtPONOOB.setTitle("");
 
-						oModelData.setData(odata);
-						oList1.setModel(oModelData);
+							POCoverNote.setContent(null);
+							POQueryHistory.setModel(null);
+							QueryId.setText("");
+							PurchaseNo.setText("");
+							PODescription.setText("");
+							POOrderInti.setText("");
+							vendor.setText("");
+							DocType.setText("");
+							orderdate.setText("");
+							PoStatus.setText("");
+							oAnswerQueryBtn.setEnabled(false);
+
+						}
 
 					} else if (oList2 !== undefined) {
-						oModelData.setData(odata);
-						oList2.setModel(oModelData);
+						if (Pocount > 0) {
+							oModelData.setData(odata);
+							oList2.setModel(oModelData);
+						} else {
+							oModelData.setData(odata);
+							oList2.setModel(oModelData);
+							txtPONOOB.setTitle("");
+
+							POCoverNote.setContent(null);
+							POQueryHistory.setModel(null);
+							QueryId.setText("");
+							PurchaseNo.setText("");
+							PODescription.setText("");
+							POOrderInti.setText("");
+							vendor.setText("");
+
+							DocType.setText("");
+							orderdate.setText("");
+							PoStatus.setText("");
+							oAnswerQueryBtn.setEnabled(false);
+
+						}
 					}
 
 				},
@@ -97,6 +181,7 @@ sap.ui.define([
 		},
 
 		_onEditMatched: function (oEvent) {
+
 			var oParameters = oEvent.getParameters();
 			var sObjectId = oEvent.getParameter("arguments").reviewData;
 			var a = JSON.parse(sObjectId);
@@ -107,6 +192,7 @@ sap.ui.define([
 
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			//		var txtPONO = this.getView().byId("txtPONO");
+
 			var txtPurOrdNo = this.getView().byId("PurOrdNo");
 			var txtQueryID = this.getView().byId("idQuery");
 			var txtPODesc = this.getView().byId("PurOrdDesc");
@@ -124,19 +210,20 @@ sap.ui.define([
 
 				this.PurchaseOrderNo = oParameters.arguments.PurchaseOrderNo;
 
-				this.PurchaseOrderNo = oParameters.arguments.PurchaseOrderNo;
 				this.ListId = oParameters.arguments.oViewID;
 				txtPONOOB.setTitle(this.PurchaseOrderNo);
 				txtQueryID.setText(a.QueryID);
-			//	txtPurOrdSts.setText(a.QueryStatusText);
+				//	txtPurOrdSts.setText(a.QueryStatusText);
 				txtPONOOB.setNumber(a.ToBeAns);
 
 				if (txtStatusectedTab.getNumber() === "A") {
-
 					txtAnsQueryButton.setVisible(true);
+					//	txtAnsQueryButton.setEnabled(true);
+
 				} else if (txtStatusectedTab.getNumber() === "R") {
 
 					txtAnsQueryButton.setVisible(false);
+
 				}
 
 				var DocumentDate, day, month, year, final;
@@ -197,7 +284,7 @@ sap.ui.define([
 							txtPurOrdDt.setText("");
 						}
 
-							txtPurOrdSts.setText(oResponse.data.PO_Status);
+						txtPurOrdSts.setText(oResponse.data.PO_Status);
 
 					},
 
@@ -211,8 +298,72 @@ sap.ui.define([
 				MessageBox.error("Incorrect Data");
 			}
 		},
+		_onPatternMatched: function (oEvent) {
+			var oModelQ = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 
-	
+			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
+			var filters = [];
+			filters.push(oUserID);
+			var Pocount;
+			var oAnswerQueryBtn = this.getView().byId("btnAnsQry");
+
+			var POCoverNote = this.getView().byId("idFrame");
+			var POQueryHistory = this.getView().byId("tblQueryHistory");
+
+			var PurchaseNo = this.getView().byId("PurOrdNo");
+			var PODescription = this.getView().byId("PurOrdDesc");
+			var POOrderInti = this.getView().byId("PurOrdInt");
+
+			var vendor = this.getView().byId("PurOrdVendor");
+			var Plant = this.getView().byId("idPlant");
+			var DocType = this.getView().byId("PurDocType");
+
+			var orderdate = this.getView().byId("PurOrdDt");
+			var PoStatus = this.getView().byId("PurOrdSts");
+
+			var PoNo = this.getView().byId("objcmp");
+			var txtQueryID = this.getView().byId("idQuery");
+			oModelQ.read("/QueryToAnswerSet", {
+				filters: filters,
+				success: function (odata, oResponse) {
+					Pocount = odata.results.length;
+					if (Pocount > 0) {
+
+					//	oAnswerQueryBtn.setVisible(true);
+					} else {
+						oAnswerQueryBtn.setVisible(false);
+					}
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+
+			oModelQ.read("/QueryRaisedSet", {
+				filters: filters,
+				success: function (odata, oResponse) {
+
+					oAnswerQueryBtn.setVisible(false);
+					POCoverNote.setContent(null);
+					POQueryHistory.setModel(null);
+					PoNo.setTitle("");
+					txtQueryID.setText("");
+					PurchaseNo.setText("");
+					PODescription.setText("");
+					POOrderInti.setText("");
+					vendor.setText("");
+					DocType.setText("");
+					orderdate.setText("");
+					PoStatus.setText("");
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+
+		},
 
 		//Upload Attachments
 		onUploadComplete: function (oEvent) {
@@ -316,7 +467,7 @@ sap.ui.define([
 			var txtTime = sap.ui.getCore().byId("lblTime");
 			var oPoNo = this.getView().byId("objcmp").getTitle();
 			var oQueryId = this.getView().byId("idQuery").getText();
-			var oQueryTo =  sap.ui.getCore().byId("IdQueryTo");
+			var oQueryTo = sap.ui.getCore().byId("IdQueryTo");
 
 			var DateTime;
 
@@ -342,7 +493,7 @@ sap.ui.define([
 				}
 			});
 
-			var TitleAnswer = oQueryId  + " - Answer Query";
+			var TitleAnswer = oQueryId + " - Answer Query";
 
 			var oTitle = this._AnsweroDialog.setTitle(TitleAnswer);
 
@@ -411,7 +562,7 @@ sap.ui.define([
 			var QueryAns = sap.ui.getCore().byId("iQueryAns");
 			var QueryFrom = sap.ui.getCore().byId("iUser");
 			var Query = sap.ui.getCore().byId("iUser");
-			
+
 			var QueryTo = sap.ui.getCore().byId("IdQueryTo");
 
 			if (QueryAns.getValue() === "") {
@@ -522,7 +673,7 @@ sap.ui.define([
 					}
 
 				});
-			}else if (sKey === "QueryHistory") {
+			} else if (sKey === "QueryHistory") {
 				//	var POHistory = this.getView().byId("objcmp").getTitle();
 				var oTableHistory = this.getView().byId("tblQueryHistory");
 				var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);

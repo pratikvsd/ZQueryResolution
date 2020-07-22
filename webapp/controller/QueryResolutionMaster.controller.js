@@ -16,18 +16,21 @@ sap.ui.define([
 			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 			this.getView().setModel(oModel);
 
-		//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-			this._UserID = "FIN_RELEASE1";
+				this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+		//	this._UserID = "FIN_RELEASE1";
 
 			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
 			var oList = this.getView().byId("listToBeAns");
 			var oListAlRaised = this.getView().byId("listAlrdRaised");
 			var filters = [];
 			filters.push(oUserID);
+			var PoCountAnsToBe = this.getView().byId("idtextPocount");
 
 			oModel.read("/QueryToAnswerSet", {
 				filters: filters,
 				success: function (odata, oResponse) {
+					var Pocount = odata.results.length;
+					PoCountAnsToBe.setText(Pocount);
 					var oModelData = new sap.ui.model.json.JSONModel();
 					oModelData.setData(odata);
 					oList.setModel(oModelData);
@@ -38,9 +41,12 @@ sap.ui.define([
 				}
 			});
 
+			var PoCountalRaised = this.getView().byId("idtextPocountAlredyR");
 			oModel.read("/QueryRaisedSet", {
 				filters: filters,
 				success: function (odata, oResponse) {
+					var PocountAl = odata.results.length;
+					PoCountalRaised.setText(PocountAl);
 					var oModelData = new sap.ui.model.json.JSONModel();
 					oModelData.setData(odata);
 					oListAlRaised.setModel(oModelData);
@@ -51,16 +57,15 @@ sap.ui.define([
 				}
 			});
 			var oTabSelect = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
-		
-				oList.attachUpdateFinished(function (oEvent) {
 
-					var aItems = oEvent.getSource().getItems();
-					if (aItems.length > 0) {
-						oEvent.getSource().getItems()[0].setSelected(true);
-						oEvent.getSource().getItems()[0].firePress();
-					}
-				});
-		
+			oList.attachUpdateFinished(function (oEvent) {
+
+				var aItems = oEvent.getSource().getItems();
+				if (aItems.length > 0) {
+					oEvent.getSource().getItems()[0].setSelected(true);
+					oEvent.getSource().getItems()[0].firePress();
+				}
+			});
 
 		},
 		onSelectionChange: function (e) {
@@ -69,15 +74,15 @@ sap.ui.define([
 
 			var PurchaseOrderNo = e.getParameters().listItem.getAttributes()[0].getText();
 			var QueryId = e.getParameters().listItem.getTitle();
-		//	var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
+			//	var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
 			var itemN = {};
 			itemN.QueryID = QueryId;
-		//	itemN.QueryStatusText = QueryStatus;
+			//	itemN.QueryStatusText = QueryStatus;
 			itemN.ToBeAns = "A";
 
 			var itemR = {};
 			itemR.QueryID = QueryId;
-		//	itemR.QueryStatusText = QueryStatus;
+			//	itemR.QueryStatusText = QueryStatus;
 			itemR.ToBeAns = "R";
 
 			var oTabSelect = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
@@ -134,66 +139,30 @@ sap.ui.define([
 		onListItemPress: function (oEvent) {
 			var oTabSelect = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
 			var objEdit = oEvent.getSource().getBindingContext().getObject();
-			
+
 			var itemN = {};
 			itemN.QueryID = objEdit.QueryID;
-		//	itemN.QueryStatusText = objEdit.QueryStatusText;
+			//	itemN.QueryStatusText = objEdit.QueryStatusText;
 			itemN.ToBeAns = "A";
-			
+
 			var itemR = {};
 			itemR.QueryID = objEdit.QueryID;
-		//	itemR.QueryStatusText = objEdit.QueryStatusText;
 			itemR.ToBeAns = "R";
-			
-			if (oTabSelect === "ToBeAns"){
+
+			if (oTabSelect === "ToBeAns") {
+
 				this.getRouter().navTo("QueryResolutionDetail", {
-				PurchaseOrderNo: objEdit.PO_NO,
-				reviewData: JSON.stringify(itemN)
-			});
-			}else if (oTabSelect === "AlrdRaised"){
+					PurchaseOrderNo: objEdit.PO_NO,
+					reviewData: JSON.stringify(itemN)
+				});
+			} else if (oTabSelect === "AlrdRaised") {
 				this.getRouter().navTo("QueryResolutionDetail", {
-				PurchaseOrderNo: objEdit.PO_NO,
-				reviewData: JSON.stringify(itemR)
-			});
+					PurchaseOrderNo: objEdit.PO_NO,
+					reviewData: JSON.stringify(itemR)
+				});
 			}
 
-			
-			
-
-
-			
-
 		},
-
-		onListAlreadyRaised: function (oEvent) {
-			var objEdit = oEvent.getSource().getBindingContext().getObject();
-			var item = {};
-			item.QueryID = objEdit.QueryID;
-			item.QueryStatusText = objEdit.QueryStatusText;
-
-			this.getRouter().navTo("QueryResolutionDetail", {
-				PO_No: objEdit.PO_No
-					//	PurchaseOrderNo: objEdit.PurchaseOrderNo
-			});
-
-		},
-
-		/*	OnSelectTab: function (oEvent) {
- 
-			var oTab = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
-			var oButton = sap.ui.getCore().byId("__xmlview2--btnAnsQry");
-				var oBtnUpload = sap.ui.getCore().byId("__xmlview2--myId");
-			if (oTab == "ToBeAns") {
-
-				oButton.setVisible(true);
-				oBtnUpload.setVisible(true);
-			} else if (oTab == "AlrdRaised") {
-				oButton.setVisible(false);
-				oBtnUpload.setVisible(false);
-
-			}
-
-		},*/
 
 		handleOpenDialog: function (oEvent) {
 
@@ -211,47 +180,61 @@ sap.ui.define([
 
 		OnSelectTab: function (oEvent) {
 
+			var that = this;
 			var oModel = this.getView().getModel();
 			var sKey = oEvent.getParameter("key");
 			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
 			var oListAnswer = this.getView().byId("listToBeAns");
 			var oListRaised = this.getView().byId("listAlrdRaised");
-			
+
 			var filters = [];
 			filters.push(oUserID);
+			var Pocount;
+			var oModelData = new sap.ui.model.json.JSONModel();
+			var PoCountAnsToBe = this.getView().byId("idtextPocount");
 
 			if (sKey === "ToBeAns") {
-				oModel.read("/QueryToAnswerSet", {
-					filters: filters,
-					success: function (odata, oResponse) {
-						var oModelData = new sap.ui.model.json.JSONModel();
-						oModelData.setData(odata);
-						oListAnswer.setModel(oModelData);
-							oListRaised.getItems()[0].setSelected(true);
-							oListRaised.getItems()[0].firePress();
+				if (PoCountAnsToBe.getText() <= 0) {
+					this.getRouter().navTo("queryresolutiondetail", {});
+				} else {
+					oModel.read("/QueryToAnswerSet", {
+						filters: filters,
+						success: function (odata, oResponse) {
 
-					},
-					error: function () {
-						//	MessageBox.error("error");
-					}
-				});
+							oModelData.setData(odata);
+							oListAnswer.setModel(oModelData);
+							oListAnswer.getItems()[0].setSelected(true);
+							oListAnswer.getItems()[0].firePress();
+
+						},
+						error: function () {
+							//	MessageBox.error("error");
+						}
+					});
+				}
 
 			} else if (sKey === "AlrdRaised") {
-			
-				oModel.read("/QueryRaisedSet", {
+				var PoCountalRaised = this.getView().byId("idtextPocountAlredyR");
+				if (PoCountalRaised.getText() <= 0) {
+					this.getRouter().navTo("queryresolutiondetail", {});
+				}else{
+						oModel.read("/QueryRaisedSet", {
 					filters: filters,
 					success: function (odata, oResponse) {
-						var oModelData = new sap.ui.model.json.JSONModel();
+						Pocount = odata.results.length;
+
 						oModelData.setData(odata);
 						oListRaised.setModel(oModelData);
-							oListRaised.getItems()[0].setSelected(true);
-							oListRaised.getItems()[0].firePress();
+						oListRaised.getItems()[0].setSelected(true);
+						oListRaised.getItems()[0].firePress();
 
 					},
 					error: function () {
 						//	MessageBox.error("error");
 					}
 				});
+				}
+			
 
 			}
 

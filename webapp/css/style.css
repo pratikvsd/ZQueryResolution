@@ -322,10 +322,7 @@ sapMBtnInner.sapMBtnReject:hover
 {
 	padding-left: 30px;
 }
-/*.sapUiMedia-Std-Tablet .sapMITH, .sapUiMedia-Std-Desktop .sapMITH {
-    padding: 0 2rem;
-    background-color: #0c0c61;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-left: 74px;
-}*/
+.sapMITBArrowScroll
+{
+	display:none;
+}

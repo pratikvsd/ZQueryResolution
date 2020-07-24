@@ -18,7 +18,7 @@
 						<items>
 						
 							<IconTabFilter text="To Be Answered" key="ToBeAns">
-								<List items="{/results}" id="listToBeAns" mode="SingleSelectMaster" selectionChange="onSelectionChange">
+								<List items="{/results}" id="listToBeAns" noDataText="No Query To Respond" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
 											<!--	<firstStatus>
@@ -37,8 +37,8 @@
 									</items>
 								</List>
 							</IconTabFilter>
-							<IconTabFilter text="Already Raised" key="AlrdRaised">
-								<List items="{/results}" id="listAlrdRaised" mode="SingleSelectMaster" selectionChange="onSelectionChange">
+							<IconTabFilter text="Raised By Me" key="AlrdRaised">
+								<List items="{/results}" id="listAlrdRaised" noDataText="No Query Raised" mode="SingleSelectMaster" selectionChange="onSelectionChange">
 									<items>
 										<ObjectListItem title="{QueryID}" type="Active" press="onListItemPress">
 											<!--	<firstStatus>

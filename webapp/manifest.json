@@ -45,10 +45,7 @@
 			"tablet": true,
 			"phone": true
 		},
-		"supportedThemes": [
-			"sap_hcb",
-			"sap_bluecrystal"
-		]
+		"supportedThemes": ["sap_hcb", "sap_bluecrystal"]
 	},
 	"sap.ui5": {
 		"rootView": {
@@ -114,11 +111,9 @@
 			}
 		},
 		"resources": {
-			"css": [
-				{
-					"uri": "css/style.css"
-				}
-			]
+			"css": [{
+				"uri": "css/style.css"
+			}]
 		},
 		"routing": {
 			"config": {
@@ -130,32 +125,24 @@
 				"controlId": "idApp",
 				"clearControlAggregation": false
 			},
-			"routes": [
-				{
-					"pattern": "",
-					"name": "FirstPage",
-					"target": [
-						"QueryResolutionDetail",
-						"QueryResolutionMaster"
-					]
-				},
-				{
-					"name": "QueryResolutionDetail",
-					"pattern": "QueryResolutionDetail/{PurchaseOrderNo}/QueryResolutionDetail1/{reviewData}",
-					"target": [
-						"QueryResolutionMaster",
-						"QueryResolutionDetail"
-					]
-				},
-				{
-					"name": "queryresolutiondetail",
-					"pattern": "queryresolutiondetail",
-					"target": [
-						"QueryResolutionMaster",
-						"QueryResolutionDetail"
-					]
-				}
-			],
+			"routes": [{
+				"pattern": "",
+				"name": "FirstPage",
+				"target": ["QueryResolutionDetail", "QueryResolutionMaster"]
+			}, {
+				"name": "QueryResolutionDetail",
+				"pattern": "QueryResolutionDetail/{PurchaseOrderNo}/QueryResolutionDetail1/{reviewData}",
+				"target": ["QueryResolutionMaster", "QueryResolutionDetail"]
+			}, {
+				"name": "queryresolutiondetail",
+				"pattern": "queryresolutiondetail",
+				"target": ["QueryResolutionMaster", "QueryResolutionDetail"]
+			},
+			{
+				"name": "TargetSApp",
+				"pattern": "queryresolutiondetail",
+				"target": ["QueryResolutionMaster", "QueryResolutionDetail"]
+			}],
 			"targets": {
 				"TargetSApp": {
 					"viewType": "XML",

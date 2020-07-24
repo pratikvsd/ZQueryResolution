@@ -17,7 +17,7 @@ sap.ui.define([
 		 * @memberOf QueryResolution.ZQueryResolution.view.QueryResolutionDetail
 		 */
 		onInit: function () {
-		//		this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+		//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
 			this._UserID = "FIN_RELEASE1";
 
 			/*	var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
@@ -142,7 +142,7 @@ sap.ui.define([
 							DocType.setText("");
 							orderdate.setText("");
 							PoStatus.setText("");
-							oAnswerQueryBtn.setEnabled(false);
+							//	oAnswerQueryBtn.setEnabled(false);
 
 						}
 
@@ -166,7 +166,7 @@ sap.ui.define([
 							DocType.setText("");
 							orderdate.setText("");
 							PoStatus.setText("");
-							oAnswerQueryBtn.setEnabled(false);
+							//	oAnswerQueryBtn.setEnabled(false);
 
 						}
 					}
@@ -293,6 +293,34 @@ sap.ui.define([
 					}
 
 				});
+			
+				var oQueryId = this.getView().byId("idQuery").getText();
+				var QueryAsked = this.getView().byId("tblQueryAsked");
+				var QueryAskedDate = this.getView().byId("tblQueryDate");
+					var tblQueryTime = this.getView().byId("tblQueryTime");
+					var tblQueryDateTime = this.getView().byId("tblQueryDateTime");
+				var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
+				var filtersA = [];
+				filtersA.push(oUserID);
+				oModelQ.read("/QueryToAnswerSet", {
+					filters: filtersA,
+					success: function (odata, oResponse) {
+						var oModelData = new sap.ui.model.json.JSONModel();
+						oModelData.setData(odata);
+						for (var i = 0; i < oModelData.getData().results.length; i++) {
+							if (oModelData.getData().results[i].QueryID.toString() === oQueryId) {
+								QueryAsked.setText(oModelData.getData().results[i].Query);
+								QueryAskedDate.setText(oModelData.getData().results[i].QueryDate);
+								tblQueryTime.setText(oModelData.getData().results[i].QueryTime);
+								var QueryDateTime = QueryAskedDate.getText() + " " + tblQueryTime.getText();
+								tblQueryDateTime.setText(QueryDateTime);
+							}
+						}
+					},
+					error: function () {
+						//	MessageBox.error("error");
+					}
+				});
 
 			} else {
 				MessageBox.error("Incorrect Data");
@@ -329,7 +357,7 @@ sap.ui.define([
 					Pocount = odata.results.length;
 					if (Pocount > 0) {
 
-					//	oAnswerQueryBtn.setVisible(true);
+						//	oAnswerQueryBtn.setVisible(true);
 					} else {
 						oAnswerQueryBtn.setVisible(false);
 					}

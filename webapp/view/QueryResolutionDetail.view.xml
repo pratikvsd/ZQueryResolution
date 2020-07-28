@@ -18,7 +18,7 @@
 						class="sapUiResponsiveContentPadding">
 						<items>
 							<IconTabFilter text="Query Details" key="QueryDetails" icon="sap-icon://form">
-								<Table id="tblQueryDetails" items="" inset="false" growing="true" growingThreshold="10" growingScrollToLoad="true" width="auto">
+								<Table id="tblQueryDetails" inset="false" growing="true" growingThreshold="10" growingScrollToLoad="true" width="auto">
 									<columns>
 										<Column width="15%">
 											<Text text="Query Asked" class="tblHeader"/>
@@ -26,10 +26,10 @@
 										<Column width="15%">
 											<Text text="Date and Time" class="tblHeader"/>
 										</Column>
-											<Column width="15%" visible="false">
+										<Column width="15%" visible="false">
 											<Text text="Date " class="tblHeader"/>
 										</Column>
-											<Column width="15%" visible="false">
+										<Column width="15%" visible="false">
 											<Text text="Time" class="tblHeader"/>
 										</Column>
 									</columns>
@@ -38,13 +38,13 @@
 											<cells>
 												<Text text="" id="tblQueryAsked"/>
 												<Text text="" id="tblQueryDateTime"/>
-													<Text text="" id="tblQueryDate"/>
-														<Text text="" id="tblQueryTime"/>
+												<Text text="" id="tblQueryDate"/>
+												<Text text="" id="tblQueryTime"/>
 											</cells>
 										</ColumnListItem>
 									</items>
 								</Table>
-								<Table id="tblQueryAnser" items="" inset="false" growing="true" growingThreshold="10" growingScrollToLoad="true" width="auto">
+								<Table id="tblQueryDetailsAnswer" inset="false" growing="true" growingThreshold="10" growingScrollToLoad="true" width="auto">
 									<columns>
 										<Column width="15%">
 											<Text text="Query Answer" class="tblHeader"/>
@@ -52,44 +52,59 @@
 										<Column width="15%">
 											<Text text="Date and Time" class="tblHeader"/>
 										</Column>
+										<Column width="15%" visible="false">
+											<Text text="Date " class="tblHeader"/>
+										</Column>
+										<Column width="15%" visible="false">
+											<Text text="Time" class="tblHeader"/>
+										</Column>
 									</columns>
 									<items >
 										<ColumnListItem press="onEdit">
 											<cells>
-												<Text text=""/>
-												<Text text=""/>
+												<Text text="" id="tblQueryanswered"/>
+												<Text text="" id="tblQueryansweredDateTime"/>
+												<Text text="" id="tblQueryanswerDate"/>
+												<Text text="" id="tblQueryanswerTime"/>
 											</cells>
 										</ColumnListItem>
 									</items>
 								</Table>
 							</IconTabFilter>
-							<IconTabFilter icon="sap-icon://pdf-attachment" text="Cover Note">
-								<core:HTML id="idFrame"/>
+							<IconTabFilter icon="sap-icon://pdf-attachment" text="Cover Note" key="CoverNote">
+								<core:HTML id="idFrame" visible="true"/>
 							</IconTabFilter>
-							<IconTabFilter text="PO Attachments" icon="sap-icon://attachment">
-								<UploadCollection id="UploadCollection" maximumFilenameLength="55" maximumFileSize="10" multiple="true" showSeparators="All"
+							<IconTabFilter text="PO Attachments" key="Attachments" icon="sap-icon://attachment">
+								<UploadCollection id="UploadCollection" maximumFilenameLength="35" maximumFileSize="10" multiple="true" showSeparators="All"
 									change="onChange" fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileRenamed="onFileRenamed"
 									fileSizeExceed="onFileSizeExceed" selectionChange="onSelectionChange" typeMissmatch="onTypeMissmatch" uploadComplete="onUploadComplete"
-									beforeUploadStarts="onBeforeUploadStarts" uploadTerminated="onUploadTerminated"
-									items="{path : 'oModelAttachment>/items', templateShareable : 'true'}" numberOfAttachmentsText="Uploaded (8)" mode="SingleSelectMaster">
+									beforeUploadStarts="onBeforeUploadStarts" uploadTerminated="onUploadTerminated" items="{path:'/results'}"
+									uploadUrl="/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/POAttachmentsSet" mode="MultiSelect">
 									<toolbar>
 										<OverflowToolbar id="myId">
-											<Title id="attachmentTitle"/>
+											<Title   id="attachmentTitle"/>
 											<ToolbarSpacer/>
 											<Button id="deleteSelectedButton" text="Delete" press="onDeleteSelectedItems" enabled="false" visible="false" type="Transparent"></Button>
 											<ToggleButton id="selectAllButton" text="Select all" press="onSelectAllPress" enabled="false" visible="false" type="Transparent"></ToggleButton>
-											<UploadCollectionToolbarPlaceholder></UploadCollectionToolbarPlaceholder>
+											<Title text="Attachment Repository: SAP DMS"/>
+											<UploadCollectionToolbarPlaceholder id="idupload"></UploadCollectionToolbarPlaceholder>
 										</OverflowToolbar>
 									</toolbar>
 									<items>
-										<UploadCollectionItem documentId="{oModelAttachment>documentId}" fileName="{oModelAttachment>fileName}"
-											mimeType="{oModelAttachment>mimeType}" thumbnailUrl="{oModelAttachment>thumbnailUrl}" url="{oModelAttachment>url}"
-											enableEdit="{oModelAttachment>enableEdit}" enableDelete="{oModelAttachment>enableDelete}" visibleDelete="{oModelAttachment>visibleDelete}"
-											visibleEdit="{oModelAttachment>visibleEdit}" selected="{oModelAttachment>selected}"></UploadCollectionItem>
+										<UploadCollectionItem documentId="{DocumentID}" fileName="{DocumentName}" mimeType="{MimeType}" thumbnailUrl="" url="{DocumentURL}"
+											visibleEdit="false" enableDelete="true">
+											<attributes>
+												<ObjectAttribute active="true" visible="false" title="{AttachedByUserID}"/>
+												<ObjectAttribute active="true"  text="Uploaded By :{AttachedByUserName}" press="onAttributePress"/>
+											</attributes>
+											<statuses>
+												<ObjectStatus text="Uploaded On :{DocumentDate} {DocumentTime}"/>
+											</statuses>
+										</UploadCollectionItem>
 									</items>
 								</UploadCollection>
 							</IconTabFilter>
-							<IconTabFilter text="PO Queries" key="QueryHistory" icon="sap-icon://history">
+							<IconTabFilter text="PO Queries" key="POQueries" icon="sap-icon://history">
 								<Table id="tblQueryHistory" items="{path:'/results'}" inset="false" growing="true" growingThreshold="10" growingScrollToLoad="true"
 									width="auto">
 									<columns>

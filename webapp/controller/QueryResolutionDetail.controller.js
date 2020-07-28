@@ -17,7 +17,7 @@ sap.ui.define([
 		 * @memberOf QueryResolution.ZQueryResolution.view.QueryResolutionDetail
 		 */
 		onInit: function () {
-		//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+			//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
 			this._UserID = "FIN_RELEASE1";
 
 			/*	var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
@@ -116,6 +116,7 @@ sap.ui.define([
 
 			var orderdate = this.getView().byId("PurOrdDt");
 			var PoStatus = this.getView().byId("PurOrdSts");
+			var oHtml = this.getView().byId("idFrame");
 
 			var Pocount;
 			var txtPONOOB = this.getView().byId("objcmp");
@@ -127,12 +128,13 @@ sap.ui.define([
 						if (Pocount > 0) {
 							oModelData.setData(odata);
 							oList1.setModel(oModelData);
+							oHtml.setVisible(true);
 						} else {
 							oModelData.setData(odata);
 							oList1.setModel(oModelData);
 							txtPONOOB.setTitle("");
-
-							POCoverNote.setContent(null);
+							oHtml.setVisible(false);
+							//	POCoverNote.setContent(null);
 							POQueryHistory.setModel(null);
 							QueryId.setText("");
 							PurchaseNo.setText("");
@@ -150,12 +152,13 @@ sap.ui.define([
 						if (Pocount > 0) {
 							oModelData.setData(odata);
 							oList2.setModel(oModelData);
+							oHtml.setVisible(true);
 						} else {
 							oModelData.setData(odata);
 							oList2.setModel(oModelData);
 							txtPONOOB.setTitle("");
-
-							POCoverNote.setContent(null);
+							oHtml.setVisible(false);
+							//	POCoverNote.setContent(null);
 							POQueryHistory.setModel(null);
 							QueryId.setText("");
 							PurchaseNo.setText("");
@@ -225,108 +228,113 @@ sap.ui.define([
 					txtAnsQueryButton.setVisible(false);
 
 				}
+				that.handleIconTabBarSelect();
 
-				var DocumentDate, day, month, year, final;
+				/*	var DocumentDate, day, month, year, final;
 
-				var sRead = "/SelectedPOContentSet(PoNo='" + this.PurchaseOrderNo + "')/$value";
-				oModel.read(sRead, {
-					success: function (oData, oResponse) {
+					var sRead = "/SelectedPOContentSet(PoNo='" + this.PurchaseOrderNo + "')/$value";
+					oModel.read(sRead, {
+						success: function (oData, oResponse) {
 
-						var pdfURL = oResponse.requestUri;
-						oHtml.setContent("<iframe src=" + pdfURL + " width='100%' height='600px'></iframe>");
+							var pdfURL = oResponse.requestUri;
+							oHtml.setContent("<iframe src=" + pdfURL + " width='100%' height='600px'></iframe>");
 
-					},
-					error: function () {
-						//	MessageBox.error("Cover Note Read Failed");
-					}
-				});
+						},
+						error: function () {
+							//	MessageBox.error("Cover Note Read Failed");
+						}
+					});
 
-				var POHistory = this.getView().byId("objcmp").getTitle();
-				var oTableHistory = this.getView().byId("tblQueryHistory");
-				var filters = [];
+					var POHistory = this.getView().byId("objcmp").getTitle();
+					var oTableHistory = this.getView().byId("tblQueryHistory");
+					var filters = [];
 
-				var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", POHistory);
-				filters.push(oPOH);
+					var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", POHistory);
+					filters.push(oPOH);
 
-				oModel.read("/POQueryHistorySet", {
-					filters: filters,
-					success: function (odata, oResponse) {
+					oModel.read("/POQueryHistorySet", {
+						filters: filters,
+						success: function (odata, oResponse) {
 
-						var oModelData = new sap.ui.model.json.JSONModel();
-						oModelData.setData(odata);
-						oTableHistory.setModel(oModelData);
+							var oModelData = new sap.ui.model.json.JSONModel();
+							oModelData.setData(odata);
+							oTableHistory.setModel(oModelData);
 
-					},
-					error: function () {
-						//	MessageBox.error("error");
-					}
-				});
+						},
+						error: function () {
+							//	MessageBox.error("error");
+						}
+					});
 
-				oModel.read("/PurchaseOrderGeneralSet('" + this.PurchaseOrderNo + "')", {
-					success: function (odata, oResponse) {
+					oModel.read("/PurchaseOrderGeneralSet('" + this.PurchaseOrderNo + "')", {
+						success: function (odata, oResponse) {
 
-						txtPurOrdNo.setText(oResponse.data.PO_No);
-						txtPODesc.setText(oResponse.data.PO_Description);
-						txtPurOrdInt.setText(oResponse.data.PO_Initiator);
-						txtPurOrdVendor.setText(oResponse.data.Vendor);
-						//	txtPlant.setText(oResponse.data.Plant);
-						txtPurOrdDocType.setText(oResponse.data.Document_Type);
-						if (oResponse.data.Document_Date !== null) {
-							DocumentDate = oResponse.data.Document_Date;
-							year = DocumentDate.substring(0, 4);
-							month = DocumentDate.substring(4, 6);
-							day = DocumentDate.substring(6, 8);
+							txtPurOrdNo.setText(oResponse.data.PO_NO);
+							txtPODesc.setText(oResponse.data.PO_Description);
+							txtPurOrdInt.setText(oResponse.data.PO_Initiator);
+							txtPurOrdVendor.setText(oResponse.data.Vendor);
+							//	txtPlant.setText(oResponse.data.Plant);
+							txtPurOrdDocType.setText(oResponse.data.Document_Type);
+							if (oResponse.data.Document_Date !== null) {
+								DocumentDate = oResponse.data.Document_Date;
+								year = DocumentDate.substring(0, 4);
+								month = DocumentDate.substring(4, 6);
+								day = DocumentDate.substring(6, 8);
 
-							final = day + "-" + month + "-" + year;
-							txtPurOrdDt.setText(final);
+								final = day + "-" + month + "-" + year;
+								txtPurOrdDt.setText(final);
 
-						} else {
-							txtPurOrdDt.setText("");
+							} else {
+								txtPurOrdDt.setText("");
+							}
+
+							txtPurOrdSts.setText(oResponse.data.PO_Status);
+
+						},
+
+						error: function (e) {
+							//	MessageBox.error("error");
 						}
 
-						txtPurOrdSts.setText(oResponse.data.PO_Status);
+					});
 
-					},
-
-					error: function (e) {
-						//	MessageBox.error("error");
-					}
-
-				});
-			
-				var oQueryId = this.getView().byId("idQuery").getText();
-				var QueryAsked = this.getView().byId("tblQueryAsked");
-				var QueryAskedDate = this.getView().byId("tblQueryDate");
+					var tblQueryDetails = this.getView().byId("tblQueryDetails");
+					var QueryAsked = this.getView().byId("tblQueryAsked");
+					var QueryAskedDate = this.getView().byId("tblQueryDate");
 					var tblQueryTime = this.getView().byId("tblQueryTime");
 					var tblQueryDateTime = this.getView().byId("tblQueryDateTime");
-				var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
-				var filtersA = [];
-				filtersA.push(oUserID);
-				oModelQ.read("/QueryToAnswerSet", {
-					filters: filtersA,
-					success: function (odata, oResponse) {
-						var oModelData = new sap.ui.model.json.JSONModel();
-						oModelData.setData(odata);
-						for (var i = 0; i < oModelData.getData().results.length; i++) {
-							if (oModelData.getData().results[i].QueryID.toString() === oQueryId) {
-								QueryAsked.setText(oModelData.getData().results[i].Query);
-								QueryAskedDate.setText(oModelData.getData().results[i].QueryDate);
-								tblQueryTime.setText(oModelData.getData().results[i].QueryTime);
-								var QueryDateTime = QueryAskedDate.getText() + " " + tblQueryTime.getText();
-								tblQueryDateTime.setText(QueryDateTime);
-							}
-						}
-					},
-					error: function () {
-						//	MessageBox.error("error");
-					}
-				});
 
+					var QueryAnswered = this.getView().byId("tblQueryanswered");
+					var QueryAnswerDate = this.getView().byId("tblQueryanswerDate");
+					var tblQueryAnswerTime = this.getView().byId("tblQueryanswerTime");
+					var tblQueryAnswerDateTime = this.getView().byId("tblQueryansweredDateTime");
+					oModelQ.read("/QueryRaisedDetailsSet('" + txtQueryID.getText() + "')", {
+
+						success: function (odata, oResponse) {
+							QueryAsked.setText(odata.QueryAsked);
+							QueryAskedDate.setText(odata.QueryAskedDate);
+							tblQueryTime.setText(odata.QueryAskedTime);
+							var QueryDateTime = QueryAskedDate.getText() + " " + tblQueryTime.getText();
+							tblQueryDateTime.setText(QueryDateTime);
+
+							QueryAnswered.setText(odata.QueryAnswered);
+							QueryAnswerDate.setText(odata.QueryAnsweredDate);
+							tblQueryAnswerTime.setText(odata.QueryAnsweredTime);
+							var AnswerDateTime = QueryAnswerDate.getText() + " " + tblQueryAnswerTime.getText();
+							tblQueryAnswerDateTime.setText(AnswerDateTime);
+
+						},
+						error: function () {
+							//	MessageBox.error("error");
+						}
+					});*/
 			} else {
 				MessageBox.error("Incorrect Data");
 			}
 		},
 		_onPatternMatched: function (oEvent) {
+			debugger;
+			var oParameters = oEvent.getParameters();
 			var oModelQ = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 
 			var oUserID = new sap.ui.model.Filter("UserID", "EQ", this._UserID);
@@ -351,12 +359,21 @@ sap.ui.define([
 
 			var PoNo = this.getView().byId("objcmp");
 			var txtQueryID = this.getView().byId("idQuery");
+
+			var QueryAsked = this.getView().byId("tblQueryAsked");
+			var tblQueryDateTime = this.getView().byId("tblQueryDateTime");
+
+			var QueryAnswered = this.getView().byId("tblQueryanswered");
+			var tblQueryAnswerDateTime = this.getView().byId("tblQueryansweredDateTime");
+
+			var oHtml = this.getView().byId("idFrame");
+			var that = this;
 			oModelQ.read("/QueryToAnswerSet", {
 				filters: filters,
 				success: function (odata, oResponse) {
 					Pocount = odata.results.length;
 					if (Pocount > 0) {
-
+						that.handleIconTabBarSelect();
 						//	oAnswerQueryBtn.setVisible(true);
 					} else {
 						oAnswerQueryBtn.setVisible(false);
@@ -371,19 +388,29 @@ sap.ui.define([
 			oModelQ.read("/QueryRaisedSet", {
 				filters: filters,
 				success: function (odata, oResponse) {
-
-					oAnswerQueryBtn.setVisible(false);
-					POCoverNote.setContent(null);
-					POQueryHistory.setModel(null);
-					PoNo.setTitle("");
-					txtQueryID.setText("");
-					PurchaseNo.setText("");
-					PODescription.setText("");
-					POOrderInti.setText("");
-					vendor.setText("");
-					DocType.setText("");
-					orderdate.setText("");
-					PoStatus.setText("");
+					Pocount = odata.results.length;
+					if (Pocount > 0) {
+						that.handleIconTabBarSelect();
+					} else {
+						oAnswerQueryBtn.setVisible(false);
+						oHtml.setVisible(false);
+						//	POCoverNote.setContent(null);
+						oHtml.setVisible(false);
+						POQueryHistory.setModel(null);
+						PoNo.setTitle("");
+						txtQueryID.setText("");
+						PurchaseNo.setText("");
+						PODescription.setText("");
+						POOrderInti.setText("");
+						vendor.setText("");
+						DocType.setText("");
+						orderdate.setText("");
+						PoStatus.setText("");
+						QueryAsked.setText("");
+						tblQueryDateTime.setText("");
+						QueryAnswered.setText("");
+						tblQueryAnswerDateTime.setText("");
+					}
 
 				},
 				error: function () {
@@ -395,45 +422,55 @@ sap.ui.define([
 
 		//Upload Attachments
 		onUploadComplete: function (oEvent) {
-			var oData = this.getView().byId("UploadCollection").getModel("oModelAttachment").getData();
-			var aItems = jQuery.extend(true, {}, oData).items;
-			var oItem = {};
-			var sUploadedFile = oEvent.getParameter("files")[0].fileName;
-			// at the moment parameter fileName is not set in IE9
-			if (!sUploadedFile) {
-				var aUploadedFile = (oEvent.getParameters().getSource().getProperty("value")).split(/\" "/);
-				sUploadedFile = aUploadedFile[0];
-			}
-			oItem = {
-				"documentId": jQuery.now().toString(), // generate Id,
-				"fileName": sUploadedFile,
-				"mimeType": "",
-				"thumbnailUrl": "",
-				"url": "",
+			//	var PO = this.getView().byId("objcmp").getTitle();
+			var that = this;
+			var oModel = this.getView().getModel();
+			this.getView().getModel().refresh();
+			var Attachments = this.getView().byId("UploadCollection");
 
-			};
+			that.OnPressAttachments();
 
-			aItems.unshift(oItem);
-			this.getView().byId("UploadCollection").getModel("oModelAttachment").setData({
-				"items": aItems
-			});
 			// Sets the text to the label
 			this.getView().byId("attachmentTitle").setText(this.getAttachmentTitleText());
 			// delay the success message for to notice onChange message
-			setTimeout(function () {
-				MessageToast.show("UploadComplete event triggered.");
-			}, 4000);
+
 		},
 
 		// Before Upload Attachments
 		onBeforeUploadStarts: function (oEvent) {
+
+			var Attachments = this.getView().byId("UploadCollection");
+
+			var PO = this.getView().byId("objcmp").getTitle();
 			// Header Slug
+
 			var oCustomerHeaderSlug = new sap.m.UploadCollectionParameter({
 				name: "slug",
 				value: oEvent.getParameter("fileName")
 			});
 			oEvent.getParameters().addHeaderParameter(oCustomerHeaderSlug);
-			MessageToast.show("BeforeUploadStarts event triggered.");
+
+			var oCustomerHeaderPONo = new sap.m.UploadCollectionParameter({
+				name: "PO_NO",
+				value: PO
+			});
+			oEvent.getParameters().addHeaderParameter(oCustomerHeaderPONo);
+
+			var oModel = this.getView().getModel();
+			oModel.refreshSecurityToken();
+			var oHeaders = oModel.oHeaders;
+
+			var sToken = oHeaders['x-csrf-token'];
+			var oCustomerHeaderToken = new sap.m.UploadCollectionParameter({
+				name: "x-csrf-token",
+				value: sToken
+			});
+			oEvent.getParameters().addHeaderParameter(oCustomerHeaderToken);
+			Attachments.setBusy(true);
+
+		},
+		onFilenameLengthExceed: function (oEvent) {
+			MessageToast.show("Filename Length should be less than 35 characters");
 		},
 
 		onUploadTerminated: function (oEvent) {
@@ -450,10 +487,10 @@ sap.ui.define([
 		},
 
 		deleteItemById: function (sItemToDeleteId) {
-			var oData = this.getView().byId("UploadCollection").getModel("oModelAttachment").getData();
+			var oData = this.getView().byId("UploadCollection").getModel().getData();
 			var aItems = jQuery.extend(true, {}, oData).items;
 			jQuery.each(aItems, function (index) {
-				if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
+				if (aItems[index] && aItems[index].DocumentID === sItemToDeleteId) {
 					aItems.splice(index, 1);
 				};
 			});
@@ -464,6 +501,7 @@ sap.ui.define([
 		},
 
 		getAttachmentTitleText: function () {
+			debugger;
 			var aItems = this.getView().byId("UploadCollection").getItems();
 			return "Uploaded (" + aItems.length + ")";
 		},
@@ -646,9 +684,167 @@ sap.ui.define([
 			}
 		},
 
-		handleIconTabBarSelect: function (oEvent) {
+		handleIconTabBarSelect: function () {
+			debugger;
+			var that = this;
+			var iconTab = this.getView().byId("idIconTabBarNoIconsD");
+			if (iconTab.getSelectedKey() === "QueryDetails") {
+				that.OnPressQueryDetails();
+			} else if (iconTab.getSelectedKey() === "CoverNote") {
+				that.OnPressCoverNote();
+			} else if (iconTab.getSelectedKey() === "Attachments") {
+				that.OnPressAttachments();
+
+			} else if (iconTab.getSelectedKey() === "POQueries") {
+				that.OnPressQueryHistory();
+			} else if (iconTab.getSelectedKey() === "General") {
+				that.OnPressGeneralTab();
+			}
+
+		},
+		OnPressQueryDetails: function () {
+			var oModelQ = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
+
+			var PONo = this.getView().byId("objcmp").getTitle();
+
+			var OUserId = this._UserID;
+
+			var filters = [];
+
+			var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);
+			filters.push(oPOH);
+			var txtQueryID = this.getView().byId("idQuery");
+			var tblQueryDetails = this.getView().byId("tblQueryDetails");
+			var QueryAsked = this.getView().byId("tblQueryAsked");
+			var QueryAskedDate = this.getView().byId("tblQueryDate");
+			var tblQueryTime = this.getView().byId("tblQueryTime");
+			var tblQueryDateTime = this.getView().byId("tblQueryDateTime");
+
+			var QueryAnswered = this.getView().byId("tblQueryanswered");
+			var QueryAnswerDate = this.getView().byId("tblQueryanswerDate");
+			var tblQueryAnswerTime = this.getView().byId("tblQueryanswerTime");
+			var tblQueryAnswerDateTime = this.getView().byId("tblQueryansweredDateTime");
+			oModelQ.read("/QueryRaisedDetailsSet('" + txtQueryID.getText() + "')", {
+
+				success: function (odata, oResponse) {
+					QueryAsked.setText(odata.QueryAsked);
+					QueryAskedDate.setText(odata.QueryAskedDate);
+					tblQueryTime.setText(odata.QueryAskedTime);
+					var QueryDateTime = QueryAskedDate.getText() + " " + tblQueryTime.getText();
+					tblQueryDateTime.setText(QueryDateTime);
+
+					QueryAnswered.setText(odata.QueryAnswered);
+					QueryAnswerDate.setText(odata.QueryAnsweredDate);
+					tblQueryAnswerTime.setText(odata.QueryAnsweredTime);
+					var AnswerDateTime = QueryAnswerDate.getText() + " " + tblQueryAnswerTime.getText();
+					tblQueryAnswerDateTime.setText(AnswerDateTime);
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+
+		},
+		OnPressCoverNote: function () {
+
 			var oModel = this.getView().getModel();
 			var PONo = this.getView().byId("objcmp").getTitle();
+			var oHtml = this.getView().byId("idFrame");
+			oHtml.setVisible(true);
+			var sRead = "/SelectedPOContentSet(PoNo='" + PONo + "')/$value";
+
+			oModel.read(sRead, {
+				
+				success: function (oData, oResponse) {
+					debugger;
+					var pdfURL = oResponse.requestUri;
+					oHtml.setContent("<iframe src=" + pdfURL + " width='100%' height='600px'></iframe>");
+
+				},
+				error: function () {
+					//	MessageBox.error("Cover Note Read Failed");
+				}
+			});
+		},
+		OnPressAttachments: function () {
+			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/", true);
+			var PONo = this.getView().byId("objcmp").getTitle();
+
+			var Attachments = this.getView().byId("UploadCollection");
+			var OUserId = this._UserID;
+			var oText, oDocumentDate, day, month, year, Hours, Minutes, Seconds, final;
+
+			var filters = [];
+
+			var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);
+			filters.push(oPOH);
+			Attachments.setBusy(true);
+			oModel.read("/POAttachmentsSet", {
+				filters: filters,
+				success: function (odata, oResponse) {
+					var oModelData = new sap.ui.model.json.JSONModel();
+					oModelData.setData(odata);
+					Attachments.setModel(oModelData);
+					Attachments.setBusy(false);
+
+					if (Attachments.getItems().length > 0) {
+						for (var i = 0; i < Attachments.getItems().length; i++) {
+							if (Attachments.getItems()[i].getAttributes()[0].getTitle() !== OUserId) {
+								Attachments.getItems()[i].setEnableDelete(false);
+							}
+							// Attachments.getItems()[i].getStatuses()[0].getText();
+							oText = Attachments.getItems()[i].getStatuses()[0].getText().substring(0, 13);
+							year = Attachments.getItems()[i].getStatuses()[0].getText().substring(13, 17);
+							month = Attachments.getItems()[i].getStatuses()[0].getText().substring(17, 19);
+							day = Attachments.getItems()[i].getStatuses()[0].getText().substring(19, 21);
+
+							Hours = Attachments.getItems()[i].getStatuses()[0].getText().substring(21, 24);
+							Minutes = Attachments.getItems()[i].getStatuses()[0].getText().substring(24, 26);
+							Seconds = Attachments.getItems()[i].getStatuses()[0].getText().substring(26, 28);
+
+							final = oText + day + "-" + month + "-" + year + " " + Hours + ":" + Minutes + ":" + Seconds;
+							Attachments.getItems()[i].getStatuses()[0].setText(final);
+						}
+					}
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+		},
+		OnPressQueryHistory: function () {
+			var oModel = this.getView().getModel();
+			var PONo = this.getView().byId("objcmp").getTitle();
+			var oTableHistory = this.getView().byId("tblQueryHistory");
+			var filters = [];
+
+			var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);
+			filters.push(oPOH);
+
+			oModel.read("/POQueryHistorySet", {
+				filters: filters,
+				success: function (odata, oResponse) {
+
+					var oModelData = new sap.ui.model.json.JSONModel();
+					oModelData.setData(odata);
+					oTableHistory.setModel(oModelData);
+
+				},
+				error: function () {
+					//	MessageBox.error("error");
+				}
+			});
+
+		},
+
+		OnPressGeneralTab: function () {
+			var oModel = this.getView().getModel();
+			var PONo = this.getView().byId("objcmp").getTitle();
+
+			var oApproveButton = this.getView().byId("btnApprove");
+			var oApproveReject = this.getView().byId("btnReject");
 
 			var txtPurOrdNo = this.getView().byId("PurOrdNo");
 			var txtQueryID = this.getView().byId("idQuery");
@@ -658,76 +854,40 @@ sap.ui.define([
 			var txtPurOrdDocType = this.getView().byId("PurDocType");
 			var txtPurOrdDt = this.getView().byId("PurOrdDt");
 			var txtPurOrdSts = this.getView().byId("PurOrdSts");
-			var txtPossPOSts = this.getView().byId("PossPOSts");
-			var txtPONOOB = this.getView().byId("objcmp");
-			var txtObjPrice = this.getView().byId("objcmp");
-			var txtObjQuery = this.getView().byId("objQueryAttr");
 
-			var filters = [];
+			var DocumentDate, day, month, year, final;
 
-			var sKey = oEvent.getParameter("key");
-			if (sKey === "General") {
+			oModel.read("/PurchaseOrderGeneralSet('" + PONo + "')", {
+				success: function (odata, oResponse) {
 
-				var DocumentDate, day, month, year, final;
-				var POStatus = this.getView().byId("objPrice");
-				oModel.read("/PurchaseOrderGeneralSet('" + PONo + "')", {
-					success: function (odata, oResponse) {
+					txtPurOrdNo.setText(oResponse.data.PO_NO);
+					txtPODesc.setText(oResponse.data.PO_Description);
+					txtPurOrdInt.setText(oResponse.data.PO_Initiator);
+					txtPurOrdVendor.setText(oResponse.data.Vendor);
+					//	txtPlant.setText(oResponse.data.Plant);
+					txtPurOrdDocType.setText(oResponse.data.Document_Type);
+					if (oResponse.data.Document_Date !== null) {
+						DocumentDate = oResponse.data.Document_Date;
+						year = DocumentDate.substring(0, 4);
+						month = DocumentDate.substring(4, 6);
+						day = DocumentDate.substring(6, 8);
 
-						txtPurOrdNo.setText(oResponse.data.PO_No);
-						txtPODesc.setText(oResponse.data.PO_Description);
-						txtPurOrdInt.setText(oResponse.data.PO_Initiator);
-						txtPurOrdVendor.setText(oResponse.data.Vendor);
-						//	txtPlant.setText(oResponse.data.Plant);
-						txtPurOrdDocType.setText(oResponse.data.Document_Type);
-						if (oResponse.data.Document_Date !== null) {
-							DocumentDate = oResponse.data.Document_Date;
-							year = DocumentDate.substring(0, 4);
-							month = DocumentDate.substring(4, 6);
-							day = DocumentDate.substring(6, 8);
+						final = day + "-" + month + "-" + year;
+						txtPurOrdDt.setText(final);
 
-							final = day + "-" + month + "-" + year;
-							txtPurOrdDt.setText(final);
-
-						} else {
-							txtPurOrdDt.setText("");
-						}
-
-						//	txtPurOrdSts.setText(oResponse.data.PO_Status);
-
-					},
-
-					error: function (e) {
-						//	MessageBox.error("error");
+					} else {
+						txtPurOrdDt.setText("");
 					}
 
-				});
-			} else if (sKey === "QueryHistory") {
-				//	var POHistory = this.getView().byId("objcmp").getTitle();
-				var oTableHistory = this.getView().byId("tblQueryHistory");
-				var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);
-				filters.push(oPOH);
+					txtPurOrdSts.setText(oResponse.data.PO_Status);
 
-				oModel.read("/POQueryHistorySet", {
-					filters: filters,
-					success: function (odata, oResponse) {
-						if (PONo !== "") {
+				},
 
-							var oModelData = new sap.ui.model.json.JSONModel();
-							oModelData.setData(odata);
-							oTableHistory.setModel(oModelData);
+				error: function (e) {
+					//	MessageBox.error("error");
+				}
 
-						} else {
-							oTableHistory.setModel(null);
-						}
-
-					},
-					error: function () {
-						//	MessageBox.error("error");
-					}
-				});
-
-			}
-
+			});
 		},
 
 	});

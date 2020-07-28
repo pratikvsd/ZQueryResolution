@@ -15,6 +15,8 @@ sap.ui.define([
 
 			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 			this.getView().setModel(oModel);
+			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			this._oRouter.getRoute("QueryResolutionDetail").attachPatternMatched(this._onTabMatched, this);
 
 		//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
 			this._UserID = "FIN_RELEASE1";
@@ -68,6 +70,10 @@ sap.ui.define([
 			});
 
 		},
+		
+		_onTabMatched : function(){
+			
+		},
 		onSelectionChange: function (e) {
 
 			var oList = this.getView().byId("listPO");
@@ -77,7 +83,6 @@ sap.ui.define([
 			//	var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
 			var itemN = {};
 			itemN.QueryID = QueryId;
-			//	itemN.QueryStatusText = QueryStatus;
 			itemN.ToBeAns = "A";
 
 			var itemR = {};
@@ -142,7 +147,6 @@ sap.ui.define([
 
 			var itemN = {};
 			itemN.QueryID = objEdit.QueryID;
-			//	itemN.QueryStatusText = objEdit.QueryStatusText;
 			itemN.ToBeAns = "A";
 
 			var itemR = {};
@@ -195,7 +199,9 @@ sap.ui.define([
 
 			if (sKey === "ToBeAns") {
 				if (PoCountAnsToBe.getText() <= 0) {
-					this.getRouter().navTo("queryresolutiondetail", {});
+					this.getRouter().navTo("queryresolutiondetail", {
+						
+					});
 				} else {
 					oModel.read("/QueryToAnswerSet", {
 						filters: filters,
@@ -215,8 +221,11 @@ sap.ui.define([
 
 			} else if (sKey === "AlrdRaised") {
 				var PoCountalRaised = this.getView().byId("idtextPocountAlredyR");
+				
 				if (PoCountalRaised.getText() <= 0) {
-					this.getRouter().navTo("queryresolutiondetail", {});
+					this.getRouter().navTo("queryresolutiondetail", {
+					
+					});
 				}else{
 						oModel.read("/QueryRaisedSet", {
 					filters: filters,

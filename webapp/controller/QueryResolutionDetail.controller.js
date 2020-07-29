@@ -17,8 +17,8 @@ sap.ui.define([
 		 * @memberOf QueryResolution.ZQueryResolution.view.QueryResolutionDetail
 		 */
 		onInit: function () {
-			//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-			this._UserID = "FIN_RELEASE1";
+				this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+		//	this._UserID = "FIN_RELEASE1";
 
 			/*	var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 				this.getView().setModel(oModel);*/
@@ -424,14 +424,14 @@ sap.ui.define([
 		onUploadComplete: function (oEvent) {
 			//	var PO = this.getView().byId("objcmp").getTitle();
 			var that = this;
-			var oModel = this.getView().getModel();
+			/*var oModel = this.getView().getModel();
 			this.getView().getModel().refresh();
-			var Attachments = this.getView().byId("UploadCollection");
+			var Attachments = this.getView().byId("UploadCollection");*/
 
 			that.OnPressAttachments();
 
 			// Sets the text to the label
-			this.getView().byId("attachmentTitle").setText(this.getAttachmentTitleText());
+			
 			// delay the success message for to notice onChange message
 
 		},
@@ -501,7 +501,7 @@ sap.ui.define([
 		},
 
 		getAttachmentTitleText: function () {
-			debugger;
+			
 			var aItems = this.getView().byId("UploadCollection").getItems();
 			return "Uploaded (" + aItems.length + ")";
 		},
@@ -768,13 +768,14 @@ sap.ui.define([
 			});
 		},
 		OnPressAttachments: function () {
+			var that=this;
 			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/", true);
 			var PONo = this.getView().byId("objcmp").getTitle();
-
+			
 			var Attachments = this.getView().byId("UploadCollection");
 			var OUserId = this._UserID;
 			var oText, oDocumentDate, day, month, year, Hours, Minutes, Seconds, final;
-
+			var attachmentTitle = this.getView().byId("attachmentTitle");
 			var filters = [];
 
 			var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);
@@ -786,14 +787,13 @@ sap.ui.define([
 					var oModelData = new sap.ui.model.json.JSONModel();
 					oModelData.setData(odata);
 					Attachments.setModel(oModelData);
-					Attachments.setBusy(false);
-
+					attachmentTitle.setText(that.getAttachmentTitleText());
 					if (Attachments.getItems().length > 0) {
 						for (var i = 0; i < Attachments.getItems().length; i++) {
 							if (Attachments.getItems()[i].getAttributes()[0].getTitle() !== OUserId) {
 								Attachments.getItems()[i].setEnableDelete(false);
 							}
-							// Attachments.getItems()[i].getStatuses()[0].getText();
+							
 							oText = Attachments.getItems()[i].getStatuses()[0].getText().substring(0, 13);
 							year = Attachments.getItems()[i].getStatuses()[0].getText().substring(13, 17);
 							month = Attachments.getItems()[i].getStatuses()[0].getText().substring(17, 19);
@@ -807,7 +807,7 @@ sap.ui.define([
 							Attachments.getItems()[i].getStatuses()[0].setText(final);
 						}
 					}
-
+					Attachments.setBusy(false);
 				},
 				error: function () {
 					//	MessageBox.error("error");

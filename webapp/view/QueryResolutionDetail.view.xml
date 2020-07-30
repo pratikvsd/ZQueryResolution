@@ -78,11 +78,11 @@
 								<UploadCollection id="UploadCollection" maximumFilenameLength="35" maximumFileSize="10" multiple="true" showSeparators="All"
 									change="onChange" fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileRenamed="onFileRenamed"
 									fileSizeExceed="onFileSizeExceed" selectionChange="onSelectionChange" typeMissmatch="onTypeMissmatch" uploadComplete="onUploadComplete"
-									beforeUploadStarts="onBeforeUploadStarts" uploadTerminated="onUploadTerminated" items="{path:'/results'}"
+									beforeUploadStarts="onBeforeUploadStarts"  items="{path:'/results'}"
 									uploadUrl="/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/POAttachmentsSet" mode="MultiSelect">
 									<toolbar>
 										<OverflowToolbar id="myId">
-											<Title   id="attachmentTitle"/>
+											<Title id="attachmentTitle"/>
 											<ToolbarSpacer/>
 											<Button id="deleteSelectedButton" text="Delete" press="onDeleteSelectedItems" enabled="false" visible="false" type="Transparent"></Button>
 											<ToggleButton id="selectAllButton" text="Select all" press="onSelectAllPress" enabled="false" visible="false" type="Transparent"></ToggleButton>

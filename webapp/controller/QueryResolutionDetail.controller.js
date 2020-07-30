@@ -17,8 +17,8 @@ sap.ui.define([
 		 * @memberOf QueryResolution.ZQueryResolution.view.QueryResolutionDetail
 		 */
 		onInit: function () {
-				this._UserID = sap.ushell.Container.getService("UserInfo").getId();
-		//	this._UserID = "FIN_RELEASE1";
+	//	this._UserID = sap.ushell.Container.getService("UserInfo").getId();
+			this._UserID = "FIN_RELEASE1";
 
 			/*	var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_QUERY_SRV/", true);
 				this.getView().setModel(oModel);*/
@@ -420,24 +420,17 @@ sap.ui.define([
 
 		},
 
-		//Upload Attachments
 		onUploadComplete: function (oEvent) {
-			//	var PO = this.getView().byId("objcmp").getTitle();
+			//var oModel = this.getView().getModel();
+		//	this.getView().getModel().refresh();
+			//var Attachments = this.getView().byId("UploadCollection");
 			var that = this;
-			/*var oModel = this.getView().getModel();
-			this.getView().getModel().refresh();
-			var Attachments = this.getView().byId("UploadCollection");*/
-
 			that.OnPressAttachments();
-
-			// Sets the text to the label
-			
-			// delay the success message for to notice onChange message
-
 		},
 
 		// Before Upload Attachments
 		onBeforeUploadStarts: function (oEvent) {
+			debugger;
 
 			var Attachments = this.getView().byId("UploadCollection");
 
@@ -469,9 +462,20 @@ sap.ui.define([
 			Attachments.setBusy(true);
 
 		},
+
 		onFilenameLengthExceed: function (oEvent) {
-			MessageToast.show("Filename Length should be less than 35 characters");
+			var smsg = "Filename Length should be less than 35 characters";
+				MessageBox.confirm(smsg, {
+							icon: sap.m.MessageBox.Icon.INFORMATION,
+							title: "Confirm",
+							actions: [sap.m.MessageBox.Action.OK],
+							onClose: function (sAction) {
+								if (sAction === "OK") {
+								}
+							}
+						});
 		},
+
 
 		onUploadTerminated: function (oEvent) {
 			// get parameter file name
@@ -486,20 +490,32 @@ sap.ui.define([
 			MessageToast.show("FileDeleted event triggered.");
 		},
 
-		deleteItemById: function (sItemToDeleteId) {
-			var oData = this.getView().byId("UploadCollection").getModel().getData();
-			var aItems = jQuery.extend(true, {}, oData).items;
-			jQuery.each(aItems, function (index) {
-				if (aItems[index] && aItems[index].DocumentID === sItemToDeleteId) {
-					aItems.splice(index, 1);
-				};
-			});
-			this.getView().byId("UploadCollection").getModel("oModelAttachment").setData({
-				"items": aItems
-			});
-			this.getView().byId("attachmentTitle").setText(this.getAttachmentTitleText());
-		},
+			deleteItemById: function (sItemToDeleteId) {
+		var that = this;
+			var oModel = this.getView().getModel();
+			var oPONo = this.getView().byId("objcmp").getTitle();
+			oModel.remove("/POAttachmentsSet(PO_NO='" + oPONo + "',DocumentID='" + sItemToDeleteId + "')", {
 
+				method: "DELETE",
+				success: function (res) {
+					MessageBox.success("Attachment Delete Successfully", {
+						icon: sap.m.MessageBox.Icon.SUCCESS,
+						title: "Success",
+						onClose: function (oAction) {
+						that.OnPressAttachments();
+						}
+					});
+
+				},
+
+				error: function (err) {
+					MessageBox.error("error");
+				}
+			});
+		
+	
+		//	this.getView().byId("attachmentTitle").setText(this.getAttachmentTitleText());
+		},
 		getAttachmentTitleText: function () {
 			
 			var aItems = this.getView().byId("UploadCollection").getItems();
@@ -768,10 +784,10 @@ sap.ui.define([
 			});
 		},
 		OnPressAttachments: function () {
-			var that=this;
-			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/sap/ZVECV_PURCHASE_ORDER_APPROVAL_SRV/", true);
+			debugger;
+			var oModel = this.getView().getModel();
 			var PONo = this.getView().byId("objcmp").getTitle();
-			
+			var that = this;
 			var Attachments = this.getView().byId("UploadCollection");
 			var OUserId = this._UserID;
 			var oText, oDocumentDate, day, month, year, Hours, Minutes, Seconds, final;
@@ -781,38 +797,46 @@ sap.ui.define([
 			var oPOH = new sap.ui.model.Filter("PO_NO", "EQ", PONo);
 			filters.push(oPOH);
 			Attachments.setBusy(true);
-			oModel.read("/POAttachmentsSet", {
-				filters: filters,
-				success: function (odata, oResponse) {
-					var oModelData = new sap.ui.model.json.JSONModel();
-					oModelData.setData(odata);
-					Attachments.setModel(oModelData);
-					attachmentTitle.setText(that.getAttachmentTitleText());
-					if (Attachments.getItems().length > 0) {
-						for (var i = 0; i < Attachments.getItems().length; i++) {
-							if (Attachments.getItems()[i].getAttributes()[0].getTitle() !== OUserId) {
-								Attachments.getItems()[i].setEnableDelete(false);
+		
+			if (PONo !== "") {
+				oModel.read("/POAttachmentsSet", {
+					filters: filters,
+					success: function (odata, oResponse) {
+						var oModelData = new sap.ui.model.json.JSONModel();
+						oModelData.setData(odata);
+						Attachments.setModel(oModelData);
+						Attachments.setBusy(false);
+
+						if (Attachments.getItems().length > 0) {
+							for (var i = 0; i < Attachments.getItems().length; i++) {
+								if (Attachments.getItems()[i].getAttributes()[0].getTitle() !== OUserId) {
+									Attachments.getItems()[i].setEnableDelete(false);
+								}
+								// Attachments.getItems()[i].getStatuses()[0].getText();
+								oText = Attachments.getItems()[i].getStatuses()[0].getText().substring(0, 13);
+								year = Attachments.getItems()[i].getStatuses()[0].getText().substring(13, 17);
+								month = Attachments.getItems()[i].getStatuses()[0].getText().substring(17, 19);
+								day = Attachments.getItems()[i].getStatuses()[0].getText().substring(19, 21);
+
+								Hours = Attachments.getItems()[i].getStatuses()[0].getText().substring(21, 24);
+								Minutes = Attachments.getItems()[i].getStatuses()[0].getText().substring(24, 26);
+								Seconds = Attachments.getItems()[i].getStatuses()[0].getText().substring(26, 28);
+
+								final = oText + day + "-" + month + "-" + year + " " + Hours + ":" + Minutes + ":" + Seconds;
+								Attachments.getItems()[i].getStatuses()[0].setText(final);
 							}
-							
-							oText = Attachments.getItems()[i].getStatuses()[0].getText().substring(0, 13);
-							year = Attachments.getItems()[i].getStatuses()[0].getText().substring(13, 17);
-							month = Attachments.getItems()[i].getStatuses()[0].getText().substring(17, 19);
-							day = Attachments.getItems()[i].getStatuses()[0].getText().substring(19, 21);
-
-							Hours = Attachments.getItems()[i].getStatuses()[0].getText().substring(21, 24);
-							Minutes = Attachments.getItems()[i].getStatuses()[0].getText().substring(24, 26);
-							Seconds = Attachments.getItems()[i].getStatuses()[0].getText().substring(26, 28);
-
-							final = oText + day + "-" + month + "-" + year + " " + Hours + ":" + Minutes + ":" + Seconds;
-							Attachments.getItems()[i].getStatuses()[0].setText(final);
 						}
+							attachmentTitle.setText(that.getAttachmentTitleText());
+
+					},
+					error: function () {
+						//	MessageBox.error("error");
 					}
-					Attachments.setBusy(false);
-				},
-				error: function () {
-					//	MessageBox.error("error");
-				}
-			});
+				});
+			} else {
+				Attachments.setModel(null);
+				Attachments.setBusy(false);
+			}
 		},
 		OnPressQueryHistory: function () {
 			var oModel = this.getView().getModel();
@@ -857,7 +881,7 @@ sap.ui.define([
 
 			var DocumentDate, day, month, year, final;
 
-			oModel.read("/PurchaseOrderGeneralSet('" + PONo + "')", {
+			oModel.read("/PurchaseOrderGeneralSet(PO_NO='" + PONo + "')", {
 				success: function (odata, oResponse) {
 
 					txtPurOrdNo.setText(oResponse.data.PO_NO);

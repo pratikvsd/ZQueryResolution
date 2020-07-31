@@ -6,7 +6,7 @@
 			<Page title="Volvo Eicher Commercial Vehicles Purchase Order Query Resolution" navButtonPress="handleNavButtonPress"
 				showNavButton="{device>/system/phone}">
 				<content>
-					<Label id="lblUser_dept" visible="false"/>
+					<Text id="QueryStatus" visible="false"/>
 					<ObjectHeader id="objcmp" visible="false">
 						<statuses>
 							<ObjectStatus id="objPrice"/>
@@ -87,7 +87,7 @@
 											<Button id="deleteSelectedButton" text="Delete" press="onDeleteSelectedItems" enabled="false" visible="false" type="Transparent"></Button>
 											<ToggleButton id="selectAllButton" text="Select all" press="onSelectAllPress" enabled="false" visible="false" type="Transparent"></ToggleButton>
 											<Title text="Attachment Repository: SAP DMS"/>
-											<UploadCollectionToolbarPlaceholder id="idupload"></UploadCollectionToolbarPlaceholder>
+											<UploadCollectionToolbarPlaceholder  id="idupload"></UploadCollectionToolbarPlaceholder>
 										</OverflowToolbar>
 									</toolbar>
 									<items>
@@ -142,65 +142,7 @@
 								</Table>
 							</IconTabFilter>
 							<IconTabFilter text="General" key="General" icon="sap-icon://message-information">
-								<!--	<VBox class="sapUiSmallMargin">
-									<f:Form id="FormChange354" editable="true">
-										<f:layout>
-											<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0"
-												emptySpanM="0" emptySpanS="0" columnsXL="3" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
-										</f:layout>
-										<f:formContainers >
-											<f:FormContainer >
-												<f:formElements>
-														<f:FormElement >
-														<f:fields>
-															<Text id="txtPONO" visible="false"/>
-														</f:fields>
-													</f:FormElement>
-													
-													<f:FormElement label="Purchase Order No" width="100%">
-														<f:fields>
-															<Text id="PurOrdNo"/>
-														</f:fields>
-													</f:FormElement>
-													<f:FormElement label="Purchase Order Description">
-														<f:fields>
-															<Text id="PurOrdDesc"/>
-														</f:fields>
-													</f:FormElement>
-													<f:FormElement label="Purchase Order Initiator">
-														<f:fields>
-															<Text id="PurOrdInt"/>
-														</f:fields>
-													</f:FormElement>
-														<f:FormElement label="Vendor Name">
-														<f:fields>
-															<Text id="PurOrdVendor"/>
-														</f:fields>
-													</f:FormElement>
-												</f:formElements>
-											</f:FormContainer>
-											<f:FormContainer>
-												<f:formElements>
-													<f:FormElement label="Document Type">
-														<f:fields>
-															<Text id="PurDocType"/>
-														</f:fields>
-													</f:FormElement>
-													<f:FormElement label="Purchase Order Date">
-														<f:fields>
-															<Text id="PurOrdDt"/>
-														</f:fields>
-													</f:FormElement>
-													<f:FormElement id="otherBox" label="Purchase Order Status" >
-														<f:fields>
-																<Text id="PurOrdSts"/>
-														</f:fields>
-													</f:FormElement>
-												</f:formElements>
-											</f:FormContainer>
-										</f:formContainers>
-									</f:Form>
-								</VBox>-->
+							
 								<l:Grid class="sapUiSmallMarginTop" width="auto" position="Center" containerQuery="true" vSpacing="2" defaultSpan="XL2 L4">
 									<l:content>
 										<VBox >

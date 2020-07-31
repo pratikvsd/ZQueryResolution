@@ -75,20 +75,27 @@ sap.ui.define([
 			
 		},
 		onSelectionChange: function (e) {
-
+	
 			var oList = this.getView().byId("listPO");
 
 			var PurchaseOrderNo = e.getParameters().listItem.getAttributes()[0].getText();
 			var QueryId = e.getParameters().listItem.getTitle();
-			//	var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
+			var QueryStatus = e.getParameters().listItem.getSecondStatus().getText();
+				var Querystatus = "";
+				if (QueryStatus === "Closed") {
+				Querystatus = "C";
+			} else if (QueryStatus === "Open") {
+				Querystatus = "O";
+			}
 			var itemN = {};
 			itemN.QueryID = QueryId;
 			itemN.ToBeAns = "A";
+			itemN.QueryStatus = Querystatus;
 
 			var itemR = {};
 			itemR.QueryID = QueryId;
-			//	itemR.QueryStatusText = QueryStatus;
 			itemR.ToBeAns = "R";
+			itemR.QueryStatus = Querystatus;
 
 			var oTabSelect = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
 			if (oTabSelect === "ToBeAns") {
@@ -144,14 +151,22 @@ sap.ui.define([
 		onListItemPress: function (oEvent) {
 			var oTabSelect = this.getView().byId("idIconTabBarNoIcons").getSelectedKey();
 			var objEdit = oEvent.getSource().getBindingContext().getObject();
+				var Querystatus = "";
+					if (objEdit.QueryStatusText === "Closed") {
+				Querystatus = "C";
+			} else if (objEdit.QueryStatusText === "Open") {
+				Querystatus = "O";
+			}
 
 			var itemN = {};
 			itemN.QueryID = objEdit.QueryID;
 			itemN.ToBeAns = "A";
+			itemN.QueryStatus = Querystatus;
 
 			var itemR = {};
 			itemR.QueryID = objEdit.QueryID;
 			itemR.ToBeAns = "R";
+			itemR.QueryStatus = Querystatus;
 
 			if (oTabSelect === "ToBeAns") {
 

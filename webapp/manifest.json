@@ -154,14 +154,6 @@
 						"QueryResolutionMaster",
 						"QueryResolutionDetail"
 					]
-				},
-				{
-					"name": "TargetSApp",
-					"pattern": "queryresolutiondetail",
-					"target": [
-						"QueryResolutionMaster",
-						"QueryResolutionDetail"
-					]
 				}
 			],
 			"targets": {

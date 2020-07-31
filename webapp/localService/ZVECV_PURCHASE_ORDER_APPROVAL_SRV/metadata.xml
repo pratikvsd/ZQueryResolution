@@ -45,6 +45,9 @@
 					sap:sortable="false" sap:filterable="false"/><Property Name="AttachedByUserID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/><Property Name="AttachedByUserName" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="POAttachmentContent" m:HasStream="true" sap:content-version="1">
+				<Key><PropertyRef Name="DocumentID"/></Key><Property Name="DocumentID" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityType Name="MyPOList" sap:content-version="1">
 				<Key><PropertyRef Name="UserID"/></Key><Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12" sap:unicode="false" sap:label="PO Approver" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PO_No" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Purchasing Doc."
@@ -103,7 +106,8 @@
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="UserSearchSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.UserSearch" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:content-version="1"/><EntitySet Name="POFinanceReleaseApproversSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.POFinanceReleaseApprovers"
 				sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="POAttachmentsSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.POAttachments" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="MyPOListSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.MyPOList" sap:updatable="false" sap:deletable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="POAttachmentContentSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.POAttachmentContent" sap:creatable="false"
+				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="MyPOListSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.MyPOList" sap:updatable="false" sap:deletable="false"
 				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="PurchaseOrderGeneralSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.PurchaseOrderGeneral" sap:creatable="false"
 				sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="POCommentsSet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.POComments" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="POQuerySet" EntityType="ZVECV_PURCHASE_ORDER_APPROVAL_SRV.POQuery" sap:creatable="false" sap:updatable="false"

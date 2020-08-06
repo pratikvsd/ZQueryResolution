@@ -70,11 +70,15 @@ div#__xmlview1--SimpleFormChange354wide--Form--Grid {
     font-weight: bold;
 }
 
-
+.sapMBarPH {
+    background-color: #e24040;
+    padding-right: 0.25rem;
+   
+}
 
 
 /*for Background color of bar*/
- .sapMBarPH {
+.sapMIBar.sapMHeader-CTX {
     background-color: #e24040;
     padding-right: 0.25rem;
    

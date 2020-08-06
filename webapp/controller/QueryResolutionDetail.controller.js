@@ -41,7 +41,7 @@ sap.ui.define([
 			var oAnswerQueryBtn = this.getView().byId("btnAnsQry");
 			var OUploadButton = this.getView().byId("idupload");
 			var txtPONOOB = this.getView().byId("objcmp");
-						var Attachments = this.getView().byId("UploadCollection");
+			var Attachments = this.getView().byId("UploadCollection");
 
 			oModelQ.read("/QueryToAnswerSet", {
 				filters: filters,
@@ -53,7 +53,7 @@ sap.ui.define([
 					} else {
 						//	txtPONOOB.setTitle("");
 						oAnswerQueryBtn.setVisible(false);
-							Attachments.setUploadEnabled(false);
+						Attachments.setUploadEnabled(false);
 					}
 
 				},
@@ -121,6 +121,8 @@ sap.ui.define([
 
 			var QueryAnswered = this.getView().byId("tblQueryanswered");
 			var tblQueryAnswerDateTime = this.getView().byId("tblQueryansweredDateTime");
+			var Attachments = this.getView().byId("UploadCollection");
+				var attachmentTitle = this.getView().byId("attachmentTitle");
 			var Pocount;
 			var txtPONOOB = this.getView().byId("objcmp");
 			oModelQ.read("/QueryToAnswerSet", {
@@ -151,7 +153,11 @@ sap.ui.define([
 							tblQueryDateTime.setText("");
 							QueryAnswered.setText("");
 							tblQueryAnswerDateTime.setText("");
-							oAnswerQueryBtn.setEnabled(false);
+							Attachments.setUploadEnabled(false);
+							attachmentTitle.setText("Uploaded(" + 0 + ") ");
+							Attachments.setModel(null);
+
+						//		oAnswerQueryBtn.setEnabled(false);
 
 						}
 
@@ -180,7 +186,12 @@ sap.ui.define([
 							tblQueryDateTime.setText("");
 							QueryAnswered.setText("");
 							tblQueryAnswerDateTime.setText("");
-							oAnswerQueryBtn.setEnabled(false);
+							//	oAnswerQueryBtn.setEnabled(false);
+								Attachments.setUploadEnabled(false);
+							attachmentTitle.setText("Uploaded(" + 0 + ") ");
+
+							Attachments.setModel(null);
+						
 
 						}
 					}
@@ -195,7 +206,6 @@ sap.ui.define([
 		},
 
 		_onEditMatched: function (oEvent) {
-		
 
 			var oParameters = oEvent.getParameters();
 			var sObjectId = oEvent.getParameter("arguments").reviewData;
@@ -209,7 +219,6 @@ sap.ui.define([
 			var txtQueryst = this.getView().byId("QueryStatus");
 
 			var Attachments = this.getView().byId("UploadCollection");
-		
 
 			if (oParameters.arguments.PurchaseOrderNo !== "" || oParameters.arguments.PurchaseOrderNo !== null) {
 
@@ -221,8 +230,8 @@ sap.ui.define([
 				txtPONOOB.setNumber(a.ToBeAns);
 
 				txtQueryst.setText(a.QueryStatus);
-				
-					that.handleIconTabBarSelect();
+
+				that.handleIconTabBarSelect();
 
 				if (txtStatusectedTab.getNumber() === "A") {
 					txtAnsQueryButton.setVisible(true);
@@ -233,9 +242,7 @@ sap.ui.define([
 				} else if (txtStatusectedTab.getNumber() === "R") {
 
 					txtAnsQueryButton.setVisible(false);
-				//	Attachments.setUploadEnabled(false);
-
-				
+					//	Attachments.setUploadEnabled(false);
 
 				}
 
@@ -752,7 +759,7 @@ sap.ui.define([
 									Attachments.setUploadEnabled(false);
 
 								} else if (txtQueryst.getText() === "O") {
-										Attachments.setUploadEnabled(true);
+									Attachments.setUploadEnabled(true);
 									if (Attachments.getItems()[i].getAttributes()[0].getTitle() === OUserId) {
 										Attachments.getItems()[i].setEnableDelete(true);
 									} else {
@@ -784,6 +791,7 @@ sap.ui.define([
 			} else {
 				Attachments.setModel(null);
 				Attachments.setBusy(false);
+				Attachments.setUploadEnabled(false);
 				attachmentTitle.setText("Uploaded(" + 0 + ") ");
 			}
 		},
